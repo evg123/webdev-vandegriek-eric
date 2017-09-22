@@ -10,7 +10,8 @@
   <meta charset="UTF-8">
   <title>Edit Website</title>
 
-  <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+
   <link href="../../css/style.css" rel="stylesheet"/>
 
 </head>
@@ -37,7 +38,22 @@
   </div>
 </nav>
 
-
+<div class="container-fluid row">
+  <div class="hidden-xs hidden-sm col-md-3">
+    <!-- put website list here -->
+  </div>
+  <div class="col-md-9">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" placeholder="Name" type="text" class="form-control"/>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" placeholder="Description" type="text" rows="5" class="form-control"></textarea>
+    </div>
+    <a class="btn btn-danger btn-block" href="website-list.html">Delete</a>
+  </div>
+</div>
 
 <!-- Footer -->
 <nav class="navbar navbar-default navbar-fixed-bottom">
