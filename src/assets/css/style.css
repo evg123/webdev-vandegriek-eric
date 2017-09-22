@@ -1,4 +1,27 @@
 
-input {margin-bottom: 5px}
+input {
+  margin-bottom: 5px
+}
 
-body {padding-top: 70px}
+body {
+  padding-top: 70px
+}
+
+.evg-website-nav {
+  background-color: #337ab7;
+  color: #fff;
+
+}
+
+.evg-widget .evg-content {
+  width: 100%;
+}
+
+.evg-widget .evg-widget-toolbar {
+  position: absolute;
+  right: 0px;
+  background-color: grey;
+  padding: 7px;
+  border-bottom-left-radius: 8px;
+  opacity: 0.6;
+}
