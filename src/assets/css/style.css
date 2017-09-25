@@ -9,8 +9,20 @@ body {
 
 .evg-website-nav {
   background-color: #337ab7;
-  color: #fff;
+}
 
+.evg-website-nav .navbar-link, .evg-website-nav .navbar-brand {
+  color: white;
+}
+
+.evg-website-nav .navbar-link:hover, .evg-website-nav .navbar-link:focus,
+.evg-website-nav .navbar-brand:hover, .evg-website-nav .navbar-brand:focus {
+  color: #f0f0f0;
+}
+
+.navbar-link, .navbar-text {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .evg-widget .evg-content {
@@ -19,9 +31,23 @@ body {
 
 .evg-widget .evg-widget-toolbar {
   position: absolute;
-  right: 0px;
-  background-color: grey;
+  right: 0;
+  color: #337ab7;
+  background-color: white;
   padding: 7px;
   border-bottom-left-radius: 8px;
-  opacity: 0.6;
+  opacity: 0.9;
+}
+
+.evg-widget-menu {
+  color: black;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: none;
 }
