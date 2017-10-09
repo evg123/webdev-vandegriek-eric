@@ -7,7 +7,6 @@ import { TestComponent } from './components/test/test.component';
 import {Routing} from './app.routing';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
-import {TestService} from './services/test.service.client';
 import { LoginComponent } from './components/user/login/login.component';
 import { ProfileComponent } from './components/user/profile/profile.component';
 import { RegisterComponent } from './components/user/register/register.component';
@@ -23,6 +22,10 @@ import { WidgetListComponent } from './components/widget/widget-list/widget-list
 import { WidgetHeaderComponent } from './components/widget-edit/widget-header/widget-header.component';
 import { WidgetImageComponent } from './components/widget-edit/widget-image/widget-image.component';
 import { WidgetYoutubeComponent } from './components/widget-edit/widget-youtube/widget-youtube.component';
+import { UserService } from './services/user.service.client';
+import { WebsiteService } from './services/website.service.client';
+import { PageService } from './services/page.service.client';
+import { WidgetService } from './services/widget.service.client';
 
 @NgModule({
   // Declare components here
@@ -53,7 +56,7 @@ import { WidgetYoutubeComponent } from './components/widget-edit/widget-youtube/
     Routing
   ],
   // Client Side services here
-  providers: [ TestService],
+  providers: [UserService, WebsiteService, PageService, WidgetService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
