@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {WidgetService} from '../../../services/widget.service.client';
 
 @Component({
@@ -12,10 +12,14 @@ export class WidgetEditComponent implements OnInit {
   // properties
   errorFlag: boolean;
   errorMsg: string;
+  userId: string;
+  siteId: string;
+  pageId: string;
   widgetId: string;
   widget: any;
 
   constructor(private widgetService: WidgetService,
+              private router: Router,
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {

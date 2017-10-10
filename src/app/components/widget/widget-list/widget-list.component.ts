@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {WebsiteService} from '../../../services/website.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WidgetService} from '../../../services/widget.service.client';
 

@@ -35,20 +35,20 @@
         </a>
       </div>
 
-      <div [ngSwitch]="widget.type">
+      <div [ngSwitch]="widget.widgetType">
 
-        <div *ngSwitchCase="'Header'">
-          <h1>Generic Clickbait Website Headline</h1>
+        <div *ngSwitchCase="'HEADING'">
+          <span>{{widget.text}}</span>
         </div>
 
-        <div *ngSwitchCase="'YouTube'">
+        <div *ngSwitchCase="'YOUTUBE'">
           <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/RY4rWrlY-qM" allowfullscreen></iframe>
+            <iframe class="embed-responsive-item" src={{widget.url}} allowfullscreen></iframe>
           </div>
         </div>
 
-        <div *ngSwitchCase="'Image'">
-          <img class="evg-content" src="http://lorempixel.com/400/200"/>
+        <div *ngSwitchCase="'IMAGE'">
+          <img class="evg-content" src={{widget.url}}/>
         </div>
       </div>
 

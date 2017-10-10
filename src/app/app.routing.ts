@@ -15,7 +15,6 @@ import {WidgetListComponent} from './components/widget/widget-list/widget-list.c
 import {WidgetEditComponent} from './components/widget/widget-edit/widget-edit.component';
 
 
-
 const APP_ROUTES: Routes = [
   {path: '', component : LoginComponent},
   {path: 'login', component : LoginComponent},
