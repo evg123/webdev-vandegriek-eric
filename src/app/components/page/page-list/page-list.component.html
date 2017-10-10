@@ -2,7 +2,7 @@
   <div class="container-fluid">
 
     <p class="navbar-text pull-left">
-      <a href="../website/website-list.html" class="navbar-link">
+      <a routerLink="/user/{{userId}}/website" class="navbar-link">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </p>
@@ -15,7 +15,7 @@
     </p>
 
     <p class="navbar-text pull-right">
-      <a href="page-new.html" class="navbar-link">
+      <a routerLink="/user/{{userId}}/website/{{siteId}}/page/new" class="navbar-link">
         <span class="glyphicon glyphicon-plus"></span>
       </a>
     </p>
@@ -25,76 +25,24 @@
 
 <div>
   <ul class="list-group">
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-xs-9">
-          <a href="../widget/widget-list.html">
-            Blog Post
-          </a>
+
+    <div *ngFor="let page of pages">
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-xs-9">
+            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{page._id}}/widget">
+              {{page.name}}
+            </a>
+          </div>
+          <div class="col-xs-3">
+            <a class="pull-right" routerLink="/user/{{userId}}/website/{{siteId}}/page/{{page._id}}">
+              <span class="glyphicon glyphicon-cog"></span>
+            </a>
+          </div>
         </div>
-        <div class="col-xs-3">
-          <a class="pull-right" href="page-edit.html">
-            <span class="glyphicon glyphicon-cog"></span>
-          </a>
-        </div>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-xs-9">
-          <a href="../widget/widget-list.html">
-            Blogs
-          </a>
-        </div>
-        <div class="col-xs-3">
-          <a class="pull-right" href="page-edit.html">
-            <span class="glyphicon glyphicon-cog"></span>
-          </a>
-        </div>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-xs-9">
-          <a href="../widget/widget-list.html">
-            Home
-          </a>
-        </div>
-        <div class="col-xs-3">
-          <a class="pull-right" href="page-edit.html">
-            <span class="glyphicon glyphicon-cog"></span>
-          </a>
-        </div>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-xs-9">
-          <a href="../widget/widget-list.html">
-            About
-          </a>
-        </div>
-        <div class="col-xs-3">
-          <a class="pull-right" href="page-edit.html">
-            <span class="glyphicon glyphicon-cog"></span>
-          </a>
-        </div>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-xs-9">
-          <a href="../widget/widget-list.html">
-            Contact Us
-          </a>
-        </div>
-        <div class="col-xs-3">
-          <a class="pull-right" href="page-edit.html">
-            <span class="glyphicon glyphicon-cog"></span>
-          </a>
-        </div>
-      </div>
-    </li>
+      </li>
+    </div>
+
   </ul>
 </div>
 
@@ -102,7 +50,7 @@
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid">
     <p class="navbar-text pull-right">
-      <a href="../user/profile.html">
+      <a routerLink="/user/{{userId}}">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </p>

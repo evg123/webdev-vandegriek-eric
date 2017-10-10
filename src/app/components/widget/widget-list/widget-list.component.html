@@ -2,7 +2,7 @@
   <div class="container-fluid">
 
     <p class="navbar-text pull-left">
-      <a href="../page/page-list.html" class="navbar-link">
+      <a routerLink="/user/{{userId}}/website/{{siteId}}/page" class="navbar-link">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </p>
@@ -15,7 +15,7 @@
     </p>
 
     <p class="navbar-text pull-right">
-      <a href="widget-choose.html" class="navbar-link">
+      <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/new" class="navbar-link">
         <span class="glyphicon glyphicon-plus"></span>
       </a>
     </p>
@@ -24,50 +24,34 @@
 </nav>
 
 <div class="container-fluid">
-  <div class="evg-widget">
-    <div class="evg-widget-toolbar">
-      <a href="widget-heading.html">
-        <span class="glyphicon glyphicon-cog"></span>
-      </a>
-      <a href="widget-heading.html">
-        <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
-      </a>
-    </div>
-    <h1>Generic Clickbait Website Headline</h1>
-  </div>
-  <div class="evg-widget">
-    <div class="evg-widget-toolbar">
-      <a href="widget-image.html">
-        <span class="glyphicon glyphicon-cog"></span>
-      </a>
-      <a href="widget-image.html">
-        <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
-      </a>
-    </div>
-    <img class="evg-content" src="http://lorempixel.com/400/200"/>
-  </div>
-  <div class="evg-widget">
-    <div class="evg-widget-toolbar">
-      <a href="widget-youtube.html">
-        <span class="glyphicon glyphicon-cog"></span>
-      </a>
-      <a href="widget-youtube.html">
-        <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
-      </a>
-    </div>
-    <h4>A very interesting story about cool stuff. Lots of text to read, and plenty of words. Wow!</h4>
-  </div>
-  <div class="evg-widget">
-    <div class="evg-widget-toolbar">
-      <a href="widget-youtube.html">
-        <span class="glyphicon glyphicon-cog"></span>
-      </a>
-      <a href="widget-youtube.html">
-        <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
-      </a>
-    </div>
-    <div class="embed-responsive embed-responsive-16by9">
-      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/RY4rWrlY-qM" allowfullscreen></iframe>
+  <div *ngFor="let widget of widgets">
+    <div class="evg-widget">
+      <div class="evg-widget-toolbar">
+        <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+          <span class="glyphicon glyphicon-cog"></span>
+        </a>
+        <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+          <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
+        </a>
+      </div>
+
+      <div [ngSwitch]="widget.type">
+
+        <div *ngSwitchCase="'Header'">
+          <h1>Generic Clickbait Website Headline</h1>
+        </div>
+
+        <div *ngSwitchCase="'YouTube'">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/RY4rWrlY-qM" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'Image'">
+          <img class="evg-content" src="http://lorempixel.com/400/200"/>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -82,7 +66,7 @@
       <span class="glyphicon glyphicon-eye-open"></span>
     </p>
     <p class="navbar-text pull-right">
-      <a href="../user/profile.html">
+      <a routerLink="/user/{{userId}}" class="navbar-link">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </p>

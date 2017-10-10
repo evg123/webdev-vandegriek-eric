@@ -19,13 +19,11 @@ export class WebsiteEditComponent implements OnInit {
   userId: string;
   siteId: string;
   websites: any;
-  pages: any;
   website: any;
   name: string;
   description: string;
 
   constructor(private websiteService: WebsiteService,
-              private pageService: PageService,
               private router: Router,
               private activatedRoute: ActivatedRoute) { }
 
@@ -43,7 +41,6 @@ export class WebsiteEditComponent implements OnInit {
     this.name = this.website.name;
     this.description = this.website.description;
     this.websites = this.websiteService.findWebsitesByUser(this.userId);
-    this.pages = this.pageService.findPageByWebsiteId(this.siteId);
   }
 
   update() {
@@ -52,6 +49,12 @@ export class WebsiteEditComponent implements OnInit {
     this.website.description = this.loginForm.value.description;
     this.websiteService.updateWebsite(this.siteId, this.website);
 
-    this.router.navigate(['/user/', this.userId, '/website']);
+    this.router.navigate(['user', this.userId, 'website']);
+  }
+
+  delete() {
+    this.websiteService.deleteWebsite(this.siteId);
+
+    this.router.navigate(['user', this.userId, 'website']);
   }
 }

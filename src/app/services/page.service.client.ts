@@ -26,7 +26,7 @@ export class PageService {
   };
 
   createPage(websiteId: string, page: any) {
-    page._id = Math.random();
+    page._id = Math.floor(Math.random() * 1024);
     page.websiteId = websiteId;
     this.pages.push(page);
     return page;
@@ -51,10 +51,14 @@ export class PageService {
   }
 
   updatePage(pageId: string , page: any) {
-    const existPage = this.findPageById(pageId);
-    existPage.name = page.name;
-    existPage.websiteId = page.websiteId;
-    existPage.description = page.description;
+    for (let x = 0; x < this.pages.length; x++) {
+      if (this.pages[x]._id === pageId) {
+        page._id = this.pages[x]._id;
+        page.websiteId = this.pages[x].websiteId;
+        this.pages[x] = page;
+        return;
+      }
+    }
   }
 
   deletePage(pageId: string) {

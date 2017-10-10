@@ -58,11 +58,14 @@ export class UserService {
   }
 
   updateUser(userId: string , user: any) {
-    const existUser = this.findUserById(userId);
-    existUser.username = user.username;
-    existUser.password = user.password;
-    existUser.firstName = user.firstName;
-    existUser.lastName = user.lastName;
+    for (let x = 0; x < this.users.length; x++) {
+      if (this.users[x]._id === userId) {
+        user._id = this.users[x]._id;
+        user.password = this.users[x].password;
+        this.users[x] = user;
+        return;
+      }
+    }
   }
 
   deleteUser(userId: string) {

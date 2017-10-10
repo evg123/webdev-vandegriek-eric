@@ -3,7 +3,7 @@
   <div class="container-fluid">
 
     <p class="navbar-text pull-left">
-      <a href="widget-list.html" class="navbar-link">
+      <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget" class="navbar-link">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </p>
@@ -16,7 +16,7 @@
     </p>
 
     <p class="navbar-text pull-right">
-      <a href="widget-list.html" class="navbar-link">
+      <a (click)="update()" class="navbar-link">
         <span class="glyphicon glyphicon-ok"></span>
       </a>
     </p>
@@ -25,35 +25,37 @@
 </nav>
 
 <div class="container-fluid">
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input id="name" placeholder="Name" type="text" class="form-control"/>
-  </div>
-  <div class="form-group">
-    <label for="text">Text</label>
-    <input id="text" placeholder="Text" type="text" class="form-control"/>
-  </div>
-  <div class="form-group">
-    <label for="url">URL</label>
-    <input id="url" placeholder="URL" value="http://lorempixel.com/400/200" type="text" class="form-control"/>
-  </div>
-  <div class="form-group">
-    <label for="width">Width</label>
-    <input id="width" placeholder="100%" value="100%" type="text" class="form-control"/>
-  </div>
-  <div class="form-group">
-    <label for="upload">Upload</label>
-    <input id="upload" type="file" class="form-control"/>
-  </div>
-  <a class="btn btn-primary btn-block" href="widget-list.html">Upload Image</a>
-  <a class="btn btn-danger btn-block" href="widget-list.html">Delete</a>
+  <form #f="ngForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" placeholder="Name" type="text" class="form-control"/>
+    </div>
+    <div class="form-group">
+      <label for="text">Text</label>
+      <input id="text" placeholder="Text" type="text" class="form-control"/>
+    </div>
+    <div class="form-group">
+      <label for="url">URL</label>
+      <input id="url" placeholder="URL" value="http://lorempixel.com/400/200" type="text" class="form-control"/>
+    </div>
+    <div class="form-group">
+      <label for="width">Width</label>
+      <input id="width" placeholder="100%" value="100%" type="text" class="form-control"/>
+    </div>
+    <div class="form-group">
+      <label for="upload">Upload</label>
+      <input id="upload" type="file" class="form-control"/>
+    </div>
+    <a class="btn btn-primary btn-block" (click)="update()">Upload Image</a>
+    <a class="btn btn-danger btn-block" (click)="delete()">Delete</a>
+  </form>
 </div>
 
 <!-- Footer -->
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid">
     <p class="navbar-text pull-right">
-      <a href="../user/profile.html">
+      <a routerLink="/user/{{userId}}">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </p>

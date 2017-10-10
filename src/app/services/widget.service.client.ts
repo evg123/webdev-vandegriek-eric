@@ -30,7 +30,7 @@ export class WidgetService {
   };
 
   createWidget(pageId: string, widget: any) {
-    widget._id = Math.random();
+    widget._id = Math.floor(Math.random() * 1024);
     widget.pageId = pageId;
     this.widgets.push(widget);
     return widget;
@@ -58,6 +58,8 @@ export class WidgetService {
     for (let x = 0; x < this.widgets.length; x++) {
       if (this.widgets[x]._id === widgetId) {
         widget._id = this.widgets[x]._id;
+        widget.type = this.widgets[x].widgetType;
+        widget.pageId = this.widgets[x].pageId;
         this.widgets[x] = widget;
         return;
       }

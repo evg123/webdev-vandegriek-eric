@@ -3,6 +3,7 @@ import { Http, RequestOptions, Response } from '@angular/http';
 import 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import {log} from 'util';
 
 // injecting service into module
 @Injectable()
@@ -30,7 +31,7 @@ export class WebsiteService {
   };
 
   createWebsite(userId: string, website: any) {
-    website._id = Math.random();
+    website._id = Math.floor(Math.random() * 1024);
     website.developerId = userId;
     this.websites.push(website);
     return website;
@@ -55,10 +56,14 @@ export class WebsiteService {
   }
 
   updateWebsite(websiteId: string , website: any) {
-    const existWebsite = this.findWebsiteById(website._id);
-    existWebsite.name = website.name;
-    existWebsite.developerId = website.developerId;
-    existWebsite.description = website.description;
+    for (let x = 0; x < this.websites.length; x++) {
+      if (this.websites[x]._id === websiteId) {
+        website._id = this.websites[x]._id;
+        website.developerId = this.websites[x].developerId;
+        this.websites[x] = website;
+        return;
+      }
+    }
   }
 
   deleteWebsite(websiteId: string) {
