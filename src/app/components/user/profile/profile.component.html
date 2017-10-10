@@ -10,7 +10,7 @@
     </p>
 
     <p class="navbar-text pull-right">
-      <a [routerLink]="['/profile']" class="navbar-link">
+      <a (click)="update()" class="navbar-link">
         <span class="glyphicon glyphicon-ok"></span>
       </a>
     </p>
@@ -20,37 +20,54 @@
 
 
 <div class="container">
-  <form>
+  <form #f="ngForm">
+
     <div class="form-group">
       <label for="username">Username</label>
-      <input type="text" class="form-control" id="username" placeholder="walice">
+      <input name="username"
+             [(ngModel)]="username"
+             type="text"
+             class="form-control"
+             id="username"
+             placeholder="walice">
     </div>
-  </form>
 
-  <form>
     <div class="form-group">
       <label for="email">Email address</label>
-      <input type="email" class="form-control" id="email" placeholder="alice.wonderland@unicorn.com">
+      <input name="email"
+             [(ngModel)]="email"
+             type="email"
+             class="form-control"
+             id="email"
+             placeholder="alice.wonderland@unicorn.com">
     </div>
-  </form>
 
-  <form>
     <div class="form-group">
       <label for="first-name">First Name</label>
-      <input type="text" class="form-control" id="first-name" placeholder="Alice">
+      <input name="firstName"
+             [(ngModel)]="firstName"
+             type="text"
+             class="form-control"
+             id="first-name"
+             placeholder="Alice">
     </div>
-  </form>
 
-  <form>
     <div class="form-group">
       <label for="last-name">Last Name</label>
-      <input type="text" class="form-control" id="last-name" placeholder="Wonderland">
+      <input name="lastName"
+             [(ngModel)]="lastName"
+             type="text"
+             class="form-control"
+             id="last-name"
+             placeholder="Wonderland">
     </div>
+
+    <button class="btn btn-primary btn-block"
+            routerLink="/user/{{userId}}/website">Websites</button>
+
+    <a class="btn btn-danger btn-block "
+       [routerLink]="['/login']" >Logout</a>
   </form>
-  <a class="btn btn-primary btn-block"
-     [routerLink]="['/user/:uid/website']">Websites</a>
-  <a class="btn btn-danger btn-block "
-     [routerLink]="['/login']" >Logout</a>
 
 </div>
 
@@ -58,7 +75,7 @@
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid">
     <p class="navbar-text pull-right">
-      <a [routerLink]="['/profile']">
+      <a routerLink="/user/{{userId}}">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </p>
