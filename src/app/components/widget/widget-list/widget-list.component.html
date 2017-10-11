@@ -25,34 +25,53 @@
 
 <div class="container-fluid">
   <div *ngFor="let widget of widgets">
-    <div class="evg-widget">
-      <div class="evg-widget-toolbar">
-        <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
-          <span class="glyphicon glyphicon-cog"></span>
-        </a>
-        <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
-          <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
-        </a>
-      </div>
+    <div [ngSwitch]="widget.widgetType">
 
-      <div [ngSwitch]="widget.widgetType">
-
-        <div *ngSwitchCase="'HEADING'">
+      <div *ngSwitchCase="'HEADING'">
+        <div class="evg-widget">
+          <div class="evg-widget-toolbar">
+            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+              <span class="glyphicon glyphicon-cog"></span>
+            </a>
+            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+              <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
+            </a>
+          </div>
           <span>{{widget.text}}</span>
         </div>
+      </div>
 
-        <div *ngSwitchCase="'YOUTUBE'">
+      <div *ngSwitchCase="'YOUTUBE'">
+        <div class="evg-widget">
+          <div class="evg-widget-toolbar">
+            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+              <span class="glyphicon glyphicon-cog"></span>
+            </a>
+            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+              <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
+            </a>
+          </div>
           <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src={{widget.url}} allowfullscreen></iframe>
+            <iframe class="embed-responsive-item" [src]='formatUrl(widget.url)' allowfullscreen></iframe>
           </div>
         </div>
+      </div>
 
-        <div *ngSwitchCase="'IMAGE'">
+      <div *ngSwitchCase="'IMAGE'">
+        <div class="evg-widget">
+          <div class="evg-widget-toolbar">
+            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+              <span class="glyphicon glyphicon-cog"></span>
+            </a>
+            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+              <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
+            </a>
+          </div>
           <img class="evg-content" src={{widget.url}}/>
         </div>
       </div>
-
     </div>
+
   </div>
 </div>
 

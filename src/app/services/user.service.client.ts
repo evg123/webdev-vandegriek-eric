@@ -28,7 +28,7 @@ export class UserService {
   };
 
   createUser(user: any) {
-    user._id = Math.floor(Math.random() * 1024);
+    user._id = Math.floor(Math.random() * 1024).toString();
     this.users.push(user);
     return user;
   }

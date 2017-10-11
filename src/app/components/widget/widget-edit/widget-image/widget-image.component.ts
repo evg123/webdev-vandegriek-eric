@@ -43,6 +43,11 @@ export class WidgetImageComponent implements OnInit {
       );
 
     this.widget = this.widgetService.findWidgetById(this.widgetId);
+    this.name = this.widget.name;
+    this.text = this.widget.text;
+    this.width = this.widget.width;
+    this.url = this.widget.url;
+    this.upload = this.widget.upload;
   }
 
   update() {
@@ -52,7 +57,7 @@ export class WidgetImageComponent implements OnInit {
     this.widget.name = this.loginForm.value.name;
     this.widget.text = this.loginForm.value.text;
     this.widget.upload = this.loginForm.value.upload;
-    this.widgetService.updateWidget(this.pageId, this.widget);
+    this.widgetService.updateWidget(this.widgetId, this.widget);
 
     this.router.navigate(['user', this.userId, 'website', this.siteId, 'page', this.pageId, 'widget']);
   }

@@ -42,6 +42,10 @@ export class WidgetYoutubeComponent implements OnInit {
       );
 
     this.widget = this.widgetService.findWidgetById(this.widgetId);
+    this.name = this.widget.name;
+    this.text = this.widget.text;
+    this.width = this.widget.width;
+    this.url = this.widget.url;
   }
 
   update() {
@@ -50,7 +54,7 @@ export class WidgetYoutubeComponent implements OnInit {
     this.widget.width = this.loginForm.value.width;
     this.widget.name = this.loginForm.value.name;
     this.widget.text = this.loginForm.value.text;
-    this.widgetService.updateWidget(this.pageId, this.widget);
+    this.widgetService.updateWidget(this.widgetId, this.widget);
 
     this.router.navigate(['user', this.userId, 'website', this.siteId, 'page', this.pageId, 'widget']);
   }

@@ -41,6 +41,9 @@ export class WidgetHeaderComponent implements OnInit {
       );
 
     this.widget = this.widgetService.findWidgetById(this.widgetId);
+    this.name = this.widget.name;
+    this.text = this.widget.text;
+    this.size = this.widget.size;
   }
 
   update() {
@@ -48,7 +51,7 @@ export class WidgetHeaderComponent implements OnInit {
     this.widget.name = this.loginForm.value.name;
     this.widget.text = this.loginForm.value.text;
     this.widget.size = this.loginForm.value.size;
-    this.widgetService.updateWidget(this.pageId, this.widget);
+    this.widgetService.updateWidget(this.widgetId, this.widget);
 
     this.router.navigate(['user', this.userId, 'website', this.siteId, 'page', this.pageId, 'widget']);
   }
