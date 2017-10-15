@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   email: string;
   firstName: string;
   lastName: string;
+  updated: boolean;
 
   constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -35,9 +36,10 @@ export class ProfileComponent implements OnInit {
 
     this.user = this.userService.findUserById(this.userId);
     this.username = this.user.username;
-    this.email = this.user.email;
+    this.email = this.user.email ? this.user.email : '';
     this.firstName = this.user.firstName;
     this.lastName = this.user.lastName;
+    this.updated = false;
   }
 
   update() {
@@ -48,5 +50,11 @@ export class ProfileComponent implements OnInit {
     this.userService.updateUser(this.userId, this.user);
 
     this.router.navigate(['/user/', this.userId]);
+    this.updated = true;
+    setTimeout(function(){ this.updated = false; }, 3000);
+  }
+
+  setUpdated(value: boolean) {
+    this.updated = value;
   }
 }

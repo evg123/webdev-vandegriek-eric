@@ -16,9 +16,11 @@
     </p>
 
     <p class="navbar-text pull-right">
-      <a (click)="create()" class="navbar-link">
+      <button (click)="create()"
+         [disabled]="!f.valid"
+         class="navbar-link icon-button">
         <span class="glyphicon glyphicon-ok"></span>
-      </a>
+      </button>
     </p>
 
   </div>
@@ -29,21 +31,33 @@
     <div class="form-group">
       <label for="name">Name</label>
       <input name="name"
-             [(ngModel)]="name"
+             [ngClass]="{'is-invalid': nameLocal.errors}"
              id="name"
              placeholder="Page Name"
              type="text"
+             required
+             ngModel
+             #nameLocal="ngModel"
              class="form-control"/>
     </div>
+    <span class="help-block alert-danger" *ngIf="!nameLocal.valid && nameLocal.touched">
+      Please enter a name
+    </span>
+
     <div class="form-group">
       <label for="title">Title</label>
       <input name="title"
-             [(ngModel)]="title"
              id="title"
              placeholder="Page Title"
              type="text"
+             required
+             ngModel
+             #titleLocal="ngModel"
              class="form-control"/>
     </div>
+    <span class="help-block alert-danger" *ngIf="!titleLocal.valid && titleLocal.touched">
+      Please enter a title
+    </span>
   </form>
 </div>
 

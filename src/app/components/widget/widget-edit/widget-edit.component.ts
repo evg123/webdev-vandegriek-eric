@@ -12,9 +12,6 @@ export class WidgetEditComponent implements OnInit {
   // properties
   errorFlag: boolean;
   errorMsg: string;
-  userId: string;
-  siteId: string;
-  pageId: string;
   widgetId: string;
   widget: any;
 

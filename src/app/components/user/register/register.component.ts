@@ -23,7 +23,12 @@ export class RegisterComponent implements OnInit {
   ngOnInit() { }
 
   register() {
-    // fetching data from loginForm
+    if (this.loginForm.value.password !== this.loginForm.value.verifyPassword) {
+      this.errorMsg = 'Passwords do not match';
+      this.errorFlag = true;
+      return;
+    }
+
     if (this.userService.findUserByUsername(this.loginForm.value.username)) {
       this.errorMsg = 'User already exists';
       this.errorFlag = true;

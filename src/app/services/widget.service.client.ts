@@ -58,7 +58,7 @@ export class WidgetService {
     for (let x = 0; x < this.widgets.length; x++) {
       if (this.widgets[x]._id === widgetId) {
         widget._id = this.widgets[x]._id;
-        widget.type = this.widgets[x].widgetType;
+        widget.widgetType = this.widgets[x].widgetType;
         widget.pageId = this.widgets[x].pageId;
         this.widgets[x] = widget;
         return;

@@ -16,9 +16,11 @@
     </p>
 
     <p class="navbar-text pull-right">
-      <a (click)="update()" class="navbar-link">
+      <button (click)="update()"
+         [disabled]="!f.valid"
+         class="navbar-link icon-button">
         <span class="glyphicon glyphicon-ok"></span>
-      </a>
+      </button>
     </p>
 
   </div>
@@ -33,8 +35,14 @@
              id="name"
              placeholder="Page Name"
              type="text"
+             required
+             #nameLocal="ngModel"
              class="form-control"/>
     </div>
+    <span class="help-block alert-danger" *ngIf="!nameLocal.valid && nameLocal.touched">
+      Please enter a name
+    </span>
+
     <div class="form-group">
       <label for="title">Title</label>
       <input name="title"
@@ -42,8 +50,14 @@
              id="title"
              placeholder="Page Title"
              type="text"
+             required
+             #titleLocal="ngModel"
              class="form-control"/>
     </div>
+    <span class="help-block alert-danger" *ngIf="!titleLocal.valid && titleLocal.touched">
+      Please enter a title
+    </span>
+
     <a class="btn btn-danger btn-block" (click)="delete()">Delete</a>
   </form>
 </div>

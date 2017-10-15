@@ -16,9 +16,11 @@
     </p>
 
     <p class="navbar-text pull-right">
-      <a (click)="update()" class="navbar-link">
+      <button (click)="update()"
+              [disabled]="!f.valid"
+              class="navbar-link icon-button">
         <span class="glyphicon glyphicon-ok"></span>
-      </a>
+      </button>
     </p>
 
   </div>
@@ -31,10 +33,15 @@
       <input name="name"
              [(ngModel)]="name"
              id="name"
-             placeholder="Page Name"
+             placeholder="Name"
              type="text"
+             #nameLocal="ngModel"
              class="form-control"/>
     </div>
+    <span class="help-block alert-danger" *ngIf="!nameLocal.valid && nameLocal.touched">
+      Please enter a name
+    </span>
+
     <div class="form-group">
       <label for="text">Text</label>
       <input name="text"
@@ -42,8 +49,13 @@
              id="text"
              placeholder="Text"
              type="text"
+             #textLocal="ngModel"
              class="form-control"/>
     </div>
+    <span class="help-block alert-danger" *ngIf="!textLocal.valid && textLocal.touched">
+      Please enter text
+    </span>
+
     <div class="form-group">
       <label for="url">URL</label>
       <input name="url"
@@ -51,8 +63,14 @@
              id="url"
              placeholder="URL"
              type="text"
+             required
+             #urlLocal="ngModel"
              class="form-control"/>
     </div>
+    <span class="help-block alert-danger" *ngIf="!urlLocal.valid && urlLocal.touched">
+      Please enter a URL
+    </span>
+
     <div class="form-group">
       <label for="width">Width</label>
       <input name="width"
@@ -62,6 +80,7 @@
              type="text"
              class="form-control"/>
     </div>
+
     <a class="btn btn-danger btn-block" (click)="delete()">Delete</a>
   </form>
 </div>

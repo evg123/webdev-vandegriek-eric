@@ -14,7 +14,11 @@
            type="text"
            class="form-control"
            ngModel
+           #username="ngModel"
            required/>
+    <span class="help-block alert-danger" *ngIf="!username.valid && username.touched">
+      Please enter a username
+    </span>
 
     <input placeholder="password"
            name="password"
@@ -23,6 +27,9 @@
            ngModel
            required
            #password="ngModel"/>
+    <span class="help-block alert-danger" *ngIf="!password.valid && password.touched">
+      Please enter a password
+    </span>
 
     <input placeholder="verify password"
            name="verifyPassword"
@@ -31,10 +38,14 @@
            ngModel
            required
            #verifyPassword="ngModel"/>
+    <span class="help-block alert-danger"
+          *ngIf="(!verifyPassword.valid || password.value !== verifyPassword.value) && verifyPassword.touched">
+      Please enter matching password
+    </span>
 
     <button class="btn btn-primary btn-block"
             type="submit"
-            [disabled]="!f.valid">Register</button>
+            [disabled]="!f.valid || password.value !== verifyPassword.value">Register</button>
 
     <button class="btn btn-danger btn-block"
             type="submit"

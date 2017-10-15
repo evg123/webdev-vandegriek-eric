@@ -16,9 +16,11 @@
     </p>
 
     <p class="navbar-text pull-right">
-      <a (click)="create()" class="navbar-link">
+      <button (click)="create()"
+         [disabled]="!f.valid"
+         class="navbar-link icon-button">
         <span class="glyphicon glyphicon-ok"></span>
-      </a>
+      </button>
     </p>
 
   </div>
@@ -53,17 +55,22 @@
       <div class="form-group">
         <label for="name">Name</label>
         <input name="name"
-               [(ngModel)]="name"
+               ngModel
                id="name"
                placeholder="Name"
                type="text"
+               required
+               #nameLocal="ngModel"
                class="form-control"/>
       </div>
+      <span class="help-block alert-danger" *ngIf="!nameLocal.valid && nameLocal.touched">
+        Please enter a name
+      </span>
 
       <div class="form-group">
         <label for="description">Description</label>
         <textarea name="description"
-                  [(ngModel)]="description"
+                  ngModel
                   id="description"
                   placeholder="Description"
                   rows="5"

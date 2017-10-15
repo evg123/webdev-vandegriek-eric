@@ -20,8 +20,6 @@ export class WebsiteNewComponent implements OnInit {
   siteId: string;
   websites: any;
   website: any;
-  name: string;
-  description: string;
 
   constructor(private websiteService: WebsiteService,
               private router: Router,
