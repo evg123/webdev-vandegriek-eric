@@ -74,7 +74,7 @@
             </a>
           </div>
           <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" [src]='formatUrl(widget.url)' allowfullscreen></iframe>
+            <iframe class="embed-responsive-item" [style.width]="widget.width" [src]='formatUrl(widget.url)' allowfullscreen></iframe>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
               <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
             </a>
           </div>
-          <img class="evg-content" src={{widget.url}}/>
+          <img class="evg-content" [style.width]="widget.width" src={{widget.url}}/>
         </div>
       </div>
     </div>

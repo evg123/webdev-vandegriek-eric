@@ -43,11 +43,11 @@ export class ProfileComponent implements OnInit {
   }
 
   update() {
-    this.user = {};
-    this.user.firstName = this.loginForm.value.firstName;
-    this.user.lastName = this.loginForm.value.lastName;
-    this.user.email = this.loginForm.value.email;
-    this.userService.updateUser(this.userId, this.user);
+    const updatedUser: any = this.userService.findUserById(this.userId);
+    updatedUser.firstName = this.loginForm.value.firstName;
+    updatedUser.lastName = this.loginForm.value.lastName;
+    updatedUser.email = this.loginForm.value.email;
+    this.userService.updateUser(this.userId, updatedUser);
 
     this.router.navigate(['/user/', this.userId]);
     this.updated = true;

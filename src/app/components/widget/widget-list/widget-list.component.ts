@@ -39,7 +39,11 @@ export class WidgetListComponent implements OnInit {
 
   formatUrl(url: string) {
     // make this url embed-able
-    const vidId = url.slice(url.lastIndexOf('/'));
+    let idIdx = url.lastIndexOf('=');
+    if (idIdx === -1) {
+      idIdx = url.lastIndexOf('/');
+    }
+    const vidId = url.slice(idIdx + 1);
     url = 'https://www.youtube.com/embed/' + vidId;
 
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
