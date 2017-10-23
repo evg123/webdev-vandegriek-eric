@@ -37,23 +37,46 @@ export class PageEditComponent implements OnInit {
         }
       );
 
-    this.page = this.pageService.findPageById(this.pageId);
-    this.name = this.page.name;
-    this.title = this.page.title;
+    this.pageService.findPageById(this.pageId)
+      .subscribe(
+        (data: any) => {
+          this.page = data;
+          this.name = this.page.name;
+          this.title = this.page.title;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to find pages';
+          this.errorFlag = true;
+        }
+      );
   }
 
   update() {
     this.page = {};
     this.page.name = this.loginForm.value.name;
     this.page.title = this.loginForm.value.title;
-    this.pageService.updatePage(this.pageId, this.page);
-
-    this.router.navigate(['user', this.userId, 'website', this.siteId, 'page']);
+    this.pageService.updatePage(this.pageId, this.page)
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['user', this.userId, 'website', this.siteId, 'page']);
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to update page';
+          this.errorFlag = true;
+        }
+      );
   }
 
   delete() {
-    this.pageService.deletePage(this.pageId);
-
-    this.router.navigate(['user', this.userId, 'website', this.siteId, 'page']);
+    this.pageService.deletePage(this.pageId)
+      .subscribe(
+      (data: any) => {
+        this.router.navigate(['user', this.userId, 'website', this.siteId, 'page']);
+      },
+      (error: any) => {
+        this.errorMsg = 'Failed to delete page';
+        this.errorFlag = true;
+      }
+    );
   }
 }

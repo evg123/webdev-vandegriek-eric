@@ -5,3 +5,5 @@ var USERS = [
   {_id: '345', username: 'charly',   password: 'charly',   firstName: 'Charly', lastName: 'Garcia'  },
   {_id: '456', username: 'jannunzi', password: 'jannunzi', firstName: 'Jose',   lastName: 'Annunzi' },
 ];
+
+module.exports = USERS;

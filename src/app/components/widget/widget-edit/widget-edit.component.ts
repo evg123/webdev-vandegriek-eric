@@ -28,7 +28,16 @@ export class WidgetEditComponent implements OnInit {
         }
       );
 
-    this.widget = this.widgetService.findWidgetById(this.widgetId);
+    this.widgetService.findWidgetById(this.widgetId)
+      .subscribe(
+        (data: any) => {
+          this.widget = data;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to find widget';
+          this.errorFlag = true;
+        }
+      );
   }
 
 }

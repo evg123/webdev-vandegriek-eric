@@ -35,15 +35,31 @@ export class WebsiteNewComponent implements OnInit {
         }
       );
 
-    this.websites = this.websiteService.findWebsitesByUser(this.userId);
+    this.websiteService.findWebsitesByUser(this.userId)
+      .subscribe(
+        (data: any) => {
+          this.websites = data;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to find websites';
+          this.errorFlag = true;
+        }
+      );
   }
 
   create() {
     this.website = {};
     this.website.name = this.loginForm.value.name;
     this.website.description = this.loginForm.value.description;
-    this.websiteService.createWebsite(this.userId, this.website);
-
-    this.router.navigate(['user', this.userId, 'website']);
+    this.websiteService.createWebsite(this.userId, this.website)
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['user', this.userId, 'website']);
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to create new website';
+          this.errorFlag = true;
+        }
+      );
   }
 }

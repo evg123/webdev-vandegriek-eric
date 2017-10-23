@@ -13,7 +13,7 @@ export class ProfileComponent implements OnInit {
   @ViewChild('f') loginForm: NgForm;
 
   // properties
-  errorFlag: boolean;
+  errorFlag = false;
   errorMsg: string;
   userId: string;
   user: any;
@@ -47,11 +47,18 @@ export class ProfileComponent implements OnInit {
     updatedUser.firstName = this.loginForm.value.firstName;
     updatedUser.lastName = this.loginForm.value.lastName;
     updatedUser.email = this.loginForm.value.email;
-    this.userService.updateUser(this.userId, updatedUser);
 
-    this.router.navigate(['/user/', this.userId]);
-    this.updated = true;
-    setTimeout(function(){ this.updated = false; }, 3000);
+    this.userService.updateUser(this.userId, updatedUser)
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['/user/', this.userId]);
+          this.updated = true;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to update user';
+          this.errorFlag = true;
+        }
+      );
   }
 
   setUpdated(value: boolean) {

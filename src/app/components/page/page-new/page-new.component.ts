@@ -37,8 +37,15 @@ export class PageNewComponent implements OnInit {
     const page: any = {};
     page.name = this.loginForm.value.name;
     page.title = this.loginForm.value.title;
-    this.pageService.createPage(this.siteId, page);
-
-    this.router.navigate(['user', this.userId, 'website', this.siteId, 'page']);
+    this.pageService.createPage(this.siteId, page)
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['user', this.userId, 'website', this.siteId, 'page']);
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to create new page';
+          this.errorFlag = true;
+        }
+      );
   }
 }

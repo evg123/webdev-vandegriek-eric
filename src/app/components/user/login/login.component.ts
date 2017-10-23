@@ -14,8 +14,8 @@ export class LoginComponent implements OnInit {
   @ViewChild('f') loginForm: NgForm;
 
   // properties
-  errorFlag: boolean;
-  errorMsg = 'Invalid username or password !';
+  errorFlag = false;
+  errorMsg = '';
   user: any;
 
   constructor(private userService: UserService,
@@ -25,12 +25,17 @@ export class LoginComponent implements OnInit {
 
   login() {
     // fetching data from loginForm
-    this.user = this.userService.findUserByCredentials(this.loginForm.value.username, this.loginForm.value.password);
-    if (this.user == null) {
-      this.errorFlag = true;
-    } else {
-      this.router.navigate(['/user/', this.user._id]);
-    }
+    this.userService.findUserByCredentials(this.loginForm.value.username, this.loginForm.value.password)
+      .subscribe(
+        (data: any) => {
+          this.user = data;
+          this.router.navigate(['/user/', this.user._id]);
+        },
+        (error: any) => {
+          this.errorMsg = 'Invalid username or password';
+          this.errorFlag = true;
+        }
+      );
   }
 
 }

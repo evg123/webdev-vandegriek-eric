@@ -34,7 +34,16 @@ export class WidgetListComponent implements OnInit {
         }
       );
 
-    this.widgets = this.widgetService.findWidgetsByPageId(this.pageId);
+    this.widgetService.findWidgetsByPageId(this.pageId)
+      .subscribe(
+        (data: any) => {
+          this.widgets = data;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to find widgets';
+          this.errorFlag = true;
+        }
+      );
   }
 
   formatUrl(url: string) {

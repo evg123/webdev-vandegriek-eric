@@ -28,7 +28,16 @@ export class PageListComponent implements OnInit {
         }
       );
 
-    this.pages = this.pageService.findPageByWebsiteId(this.siteId);
+    this.pageService.findPageByWebsiteId(this.siteId)
+      .subscribe(
+        (data: any) => {
+          this.pages = data;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to find pages';
+          this.errorFlag = true;
+        }
+      );
   }
 
 }

@@ -27,7 +27,16 @@ export class WebsiteListComponent implements OnInit {
         }
       );
 
-    this.websites = this.websiteService.findWebsitesByUser(this.userId);
+    this.websiteService.findWebsitesByUser(this.userId)
+      .subscribe(
+        (data: any) => {
+          this.websites = data;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to find websites';
+          this.errorFlag = true;
+        }
+      );
   }
 
 }

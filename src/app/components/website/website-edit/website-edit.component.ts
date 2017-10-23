@@ -37,24 +37,57 @@ export class WebsiteEditComponent implements OnInit {
         }
       );
 
-    this.website = this.websiteService.findWebsiteById(this.siteId);
-    this.name = this.website.name;
-    this.description = this.website.description;
-    this.websites = this.websiteService.findWebsitesByUser(this.userId);
+    this.websiteService.findWebsiteById(this.siteId)
+      .subscribe(
+        (data: any) => {
+          this.website = data;
+          this.name = this.website.name;
+          this.description = this.website.description;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to find website';
+          this.errorFlag = true;
+        }
+      );
+
+    this.websiteService.findWebsitesByUser(this.userId)
+      .subscribe(
+        (data: any) => {
+          this.websites = data;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to find websites';
+          this.errorFlag = true;
+        }
+      );
   }
 
   update() {
     this.website = {};
     this.website.name = this.loginForm.value.name;
     this.website.description = this.loginForm.value.description;
-    this.websiteService.updateWebsite(this.siteId, this.website);
-
-    this.router.navigate(['user', this.userId, 'website']);
+    this.websiteService.updateWebsite(this.siteId, this.website)
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['user', this.userId, 'website']);
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to update website';
+          this.errorFlag = true;
+        }
+      );
   }
 
   delete() {
-    this.websiteService.deleteWebsite(this.siteId);
-
-    this.router.navigate(['user', this.userId, 'website']);
+    this.websiteService.deleteWebsite(this.siteId)
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['user', this.userId, 'website']);
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to delete website';
+          this.errorFlag = true;
+        }
+      );
   }
 }

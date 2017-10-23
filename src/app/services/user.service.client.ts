@@ -9,14 +9,9 @@ import { Router } from '@angular/router';
 
 export class UserService {
 
-  constructor() { }
+  constructor(private _http: Http) { }
 
-  users = [
-    {_id: '123', username: 'alice', password: 'alice', firstName: 'Alice', lastName: 'Wonder'},
-    {_id: '234', username: 'bob', password: 'bob', firstName: 'Bob', lastName: 'Marley'},
-    {_id: '345', username: 'charly',   password: 'charly',   firstName: 'Charly', lastName: 'Garcia'  },
-    {_id: '456', username: 'jannunzi', password: 'jannunzi', firstName: 'Jose',   lastName: 'Annunzi' },
-  ];
+  baseUrl = environment.baseUrl;
 
   api = {
     'createUser' : this.createUser,
@@ -28,51 +23,77 @@ export class UserService {
   };
 
   createUser(user: any) {
-    user._id = Math.floor(Math.random() * 1024).toString();
-    this.users.push(user);
-    return user;
-  }
-
-  findUserById(userId: string) {
-    for (let x = 0; x < this.users.length; x++) {
-      if (this.users[x]._id === userId) {
-        return this.users[x];
-      }
-    }
+    return this._http.post(this.baseUrl + '/api/user', user)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        }
+      );
   }
 
   findUserByUsername(username: string) {
-    for (let x = 0; x < this.users.length; x++) {
-      if (this.users[x].username === username) {
-        return this.users[x];
-      }
-    }
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('username', username);
+
+    const requestOpts: RequestOptions = new RequestOptions ({
+      search: params
+    });
+
+    return this._http.get(this.baseUrl + '/api/user', requestOpts)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        }
+      );
   }
 
   findUserByCredentials(username: string, password: string) {
-    for (let x = 0; x < this.users.length; x++) {
-      if (this.users[x].username === username && this.users[x].password === password) {
-        return this.users[x];
-      }
-    }
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('username', username);
+    params.set('password', password);
+
+    const requestOpts: RequestOptions = new RequestOptions ({
+      search: params
+    });
+
+    return this._http.get(this.baseUrl + '/api/user/', requestOpts)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        }
+      );
+  }
+
+  findUserById(userId: string) {
+    return this._http.get(this.baseUrl + '/api/user/' + userId)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        }
+      );
   }
 
   updateUser(userId: string , user: any) {
-    for (let x = 0; x < this.users.length; x++) {
-      if (this.users[x]._id === userId) {
-        user._id = this.users[x]._id;
-        user.password = this.users[x].password;
-        this.users[x] = user;
-        return;
-      }
-    }
+    return this._http.put(this.baseUrl + '/api/user/' + userId, user)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        }
+      );
   }
 
   deleteUser(userId: string) {
-    for (let x = 0; x < this.users.length; x++) {
-      if (this.users[x]._id === userId) {
-        this.users.splice(x, 1);
-      }
-    }
+    return this._http.delete(this.baseUrl + '/api/user/' + userId)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        }
+      );
   }
 }

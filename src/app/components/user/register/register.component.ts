@@ -22,6 +22,18 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() { }
 
+  userExists(username: string) {
+    this.userService.findUserByUsername(username)
+      .subscribe(
+        (data: any) => {
+          return !!data;
+        },
+        (error: any) => {
+          return false;
+        }
+      );
+  }
+
   register() {
     if (this.loginForm.value.password !== this.loginForm.value.verifyPassword) {
       this.errorMsg = 'Passwords do not match';
@@ -29,7 +41,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    if (this.userService.findUserByUsername(this.loginForm.value.username)) {
+    if (this.userExists(this.loginForm.value.username)) {
       this.errorMsg = 'User already exists';
       this.errorFlag = true;
       return;
@@ -38,8 +50,15 @@ export class RegisterComponent implements OnInit {
     this.user = {};
     this.user.username = this.loginForm.value.username;
     this.user.password = this.loginForm.value.password;
-    this.userService.createUser(this.user);
-
-    this.router.navigate(['/user/', this.user._id]);
+    this.userService.createUser(this.user)
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['/user/', data._id]);
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to create new user';
+          this.errorFlag = true;
+        }
+      );
   }
 }

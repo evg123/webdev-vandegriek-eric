@@ -39,8 +39,16 @@ export class WidgetChooserComponent implements OnInit {
   newWidget(type: string) {
     const widget: any = {};
     widget.widgetType = type;
-    const newWidget = this.widgetService.createWidget(this.pageId, widget);
-
-    this.router.navigate(['user', this.userId, 'website', this.siteId, 'page', this.pageId, 'widget', newWidget._id]);
+    this.widgetService.createWidget(this.pageId, widget)
+      .subscribe(
+        (data: any) => {
+          const newWidget = data;
+          this.router.navigate(['user', this.userId, 'website', this.siteId, 'page', this.pageId, 'widget', newWidget._id]);
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to create new widget';
+          this.errorFlag = true;
+        }
+      );
   }
 }

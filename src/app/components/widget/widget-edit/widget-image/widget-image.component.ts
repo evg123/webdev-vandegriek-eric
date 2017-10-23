@@ -42,12 +42,21 @@ export class WidgetImageComponent implements OnInit {
         }
       );
 
-    this.widget = this.widgetService.findWidgetById(this.widgetId);
-    this.name = this.widget.name;
-    this.text = this.widget.text;
-    this.width = this.widget.width;
-    this.url = this.widget.url;
-    this.upload = this.widget.upload;
+    this.widgetService.findWidgetById(this.widgetId)
+      .subscribe(
+        (data: any) => {
+          this.widget = data;
+          this.name = this.widget.name;
+          this.text = this.widget.text;
+          this.width = this.widget.width;
+          this.url = this.widget.url;
+          this.upload = this.widget.upload;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to find widget';
+          this.errorFlag = true;
+        }
+      );
   }
 
   update() {
@@ -57,14 +66,28 @@ export class WidgetImageComponent implements OnInit {
     this.widget.name = this.loginForm.value.name;
     this.widget.text = this.loginForm.value.text;
     this.widget.upload = this.loginForm.value.upload;
-    this.widgetService.updateWidget(this.widgetId, this.widget);
-
-    this.router.navigate(['user', this.userId, 'website', this.siteId, 'page', this.pageId, 'widget']);
+    this.widgetService.updateWidget(this.widgetId, this.widget)
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['user', this.userId, 'website', this.siteId, 'page', this.pageId, 'widget']);
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to update widget';
+          this.errorFlag = true;
+        }
+      );
   }
 
   delete() {
-    this.widgetService.deleteWidget(this.widgetId);
-
-    this.router.navigate(['user', this.userId, 'website', this.siteId, 'page', this.pageId, 'widget']);
+    this.widgetService.deleteWidget(this.widgetId)
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['user', this.userId, 'website', this.siteId, 'page', this.pageId, 'widget']);
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to delete widget';
+          this.errorFlag = true;
+        }
+      );
   }
 }
