@@ -34,16 +34,25 @@ export class ProfileComponent implements OnInit {
         }
       );
 
-    this.user = this.userService.findUserById(this.userId);
-    this.username = this.user.username;
-    this.email = this.user.email ? this.user.email : '';
-    this.firstName = this.user.firstName;
-    this.lastName = this.user.lastName;
+    this.userService.findUserById(this.userId)
+      .subscribe(
+        (data: any) => {
+          this.user = data;
+          this.username = this.user.username;
+          this.email = this.user.email ? this.user.email : '';
+          this.firstName = this.user.firstName;
+          this.lastName = this.user.lastName;
+        },
+        (error: any) => {
+          this.errorMsg = 'Failed to find user';
+          this.errorFlag = true;
+        }
+      );
     this.updated = false;
   }
 
   update() {
-    const updatedUser: any = this.userService.findUserById(this.userId);
+    const updatedUser: any = {};
     updatedUser.firstName = this.loginForm.value.firstName;
     updatedUser.lastName = this.loginForm.value.lastName;
     updatedUser.email = this.loginForm.value.email;

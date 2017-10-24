@@ -48,7 +48,7 @@ module.exports = function (app) {
 
     for (var x = 0; x < PAGES.length; x++) {
       if (PAGES[x]._id === pageId) {
-        page._id = pageId;
+        page.websiteId = PAGES[x].websiteId;
         PAGES[x] = page;
         res.json(PAGES[x]);
         return;

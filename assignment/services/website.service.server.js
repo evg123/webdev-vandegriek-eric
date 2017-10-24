@@ -48,7 +48,7 @@ module.exports = function (app) {
 
     for (var x = 0; x < WEBSITES.length; x++) {
       if (WEBSITES[x]._id === siteId) {
-        website._id = siteId;
+        website.developerId = WEBSITES[x].developerId;
         WEBSITES[x] = website;
         res.json(WEBSITES[x]);
         return;

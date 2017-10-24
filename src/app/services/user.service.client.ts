@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Response } from '@angular/http';
+import {Http, RequestOptions, Response, URLSearchParams} from '@angular/http';
 import 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
@@ -54,9 +54,8 @@ export class UserService {
     params.set('username', username);
     params.set('password', password);
 
-    const requestOpts: RequestOptions = new RequestOptions ({
-      search: params
-    });
+    const requestOpts: RequestOptions = new RequestOptions();
+    requestOpts.params = params;
 
     return this._http.get(this.baseUrl + '/api/user/', requestOpts)
       .map(

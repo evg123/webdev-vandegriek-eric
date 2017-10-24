@@ -24,77 +24,79 @@
 </nav>
 
 <div class="container-fluid">
-  <div *ngFor="let widget of widgets">
+  <ul class="list-group" appSortable (newIndexes)="updateIndex($event)">
+    <div *ngFor="let widget of widgets">
+      <li class="list-group-item">
+        <div [ngSwitch]="widget.widgetType">
 
-    <div [ngSwitch]="widget.widgetType">
+          <div *ngSwitchCase="'HEADING'">
 
-      <div *ngSwitchCase="'HEADING'">
+            <div class="evg-widget">
+              <div class="evg-widget-toolbar">
+                <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+                  <span class="glyphicon glyphicon-cog"></span>
+                </a>
+                <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+                  <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
+                </a>
+              </div>
 
-        <div class="evg-widget">
-          <div class="evg-widget-toolbar">
-            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
-              <span class="glyphicon glyphicon-cog"></span>
-            </a>
-            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
-              <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
-            </a>
+              <div [ngSwitch]="widget.size">
+                <div *ngSwitchCase=1>
+                  <h1>{{widget.text}}</h1>
+                </div>
+                <div *ngSwitchCase=2>
+                  <h2>{{widget.text}}</h2>
+                </div>
+                <div *ngSwitchCase=3>
+                  <h3>{{widget.text}}</h3>
+                </div>
+                <div *ngSwitchCase=4>
+                  <h4>{{widget.text}}</h4>
+                </div>
+                <div *ngSwitchCase=5>
+                  <h5>{{widget.text}}</h5>
+                </div>
+                <div *ngSwitchCase=6>
+                  <h6>{{widget.text}}</h6>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div [ngSwitch]="widget.size">
-            <div *ngSwitchCase=1>
-              <h1>{{widget.text}}</h1>
+          <div *ngSwitchCase="'YOUTUBE'">
+            <div class="evg-widget">
+              <div class="evg-widget-toolbar">
+                <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+                  <span class="glyphicon glyphicon-cog"></span>
+                </a>
+                <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+                  <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
+                </a>
+              </div>
+              <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" [style.width]="widget.width" [src]='formatUrl(widget.url)' allowfullscreen></iframe>
+              </div>
             </div>
-            <div *ngSwitchCase=2>
-              <h2>{{widget.text}}</h2>
-            </div>
-            <div *ngSwitchCase=3>
-              <h3>{{widget.text}}</h3>
-            </div>
-            <div *ngSwitchCase=4>
-              <h4>{{widget.text}}</h4>
-            </div>
-            <div *ngSwitchCase=5>
-              <h5>{{widget.text}}</h5>
-            </div>
-            <div *ngSwitchCase=6>
-              <h6>{{widget.text}}</h6>
+          </div>
+
+          <div *ngSwitchCase="'IMAGE'">
+            <div class="evg-widget">
+              <div class="evg-widget-toolbar">
+                <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+                  <span class="glyphicon glyphicon-cog"></span>
+                </a>
+                <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+                  <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
+                </a>
+              </div>
+              <img class="evg-content" [style.width]="widget.width" src={{widget.url}}/>
             </div>
           </div>
         </div>
-      </div>
-
-      <div *ngSwitchCase="'YOUTUBE'">
-        <div class="evg-widget">
-          <div class="evg-widget-toolbar">
-            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
-              <span class="glyphicon glyphicon-cog"></span>
-            </a>
-            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
-              <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
-            </a>
-          </div>
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" [style.width]="widget.width" [src]='formatUrl(widget.url)' allowfullscreen></iframe>
-          </div>
-        </div>
-      </div>
-
-      <div *ngSwitchCase="'IMAGE'">
-        <div class="evg-widget">
-          <div class="evg-widget-toolbar">
-            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
-              <span class="glyphicon glyphicon-cog"></span>
-            </a>
-            <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
-              <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
-            </a>
-          </div>
-          <img class="evg-content" [style.width]="widget.width" src={{widget.url}}/>
-        </div>
-      </div>
+      </li>
     </div>
-
-  </div>
+  </ul>
 </div>
 
 <!-- Footer -->

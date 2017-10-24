@@ -5,6 +5,7 @@ module.exports = function (app) {
 
   app.post('/api/page/:pageId/widget', createWidget);
   app.get('/api/page/:pageId/widget', findAllWidgetsForPage);
+  app.put('/api/page/:pageId/widget', updateWidgetIndex);
   app.get('/api/widget/:widgetId', findWidgetById);
   app.put('/api/widget/:widgetId', updateWidget);
   app.delete('/api/widget/:widgetId', deleteWidget);
@@ -48,7 +49,7 @@ module.exports = function (app) {
 
     for (var x = 0; x < WIDGETS.length; x++) {
       if (WIDGETS[x]._id === widgetId) {
-        widget._id = widgetId;
+        widget.pageId = WIDGETS[x].pageId;
         WIDGETS[x] = widget;
         res.json(WIDGETS[x]);
         return;
@@ -72,5 +73,32 @@ module.exports = function (app) {
 
     // not found
     res.json(null);
+  }
+
+  function updateWidgetIndex(req, res) {
+    const pageId = req.params.pageId;
+    const startIdx = parseInt(req.query.initial);
+    const endIdx = parseInt(req.query.final);
+
+    // this will be either 1, -1, or 0 and will be applied
+    // to indexes that fall between the start and end
+    modifier = Math.sign(startIdx - endIdx);
+
+    for (var x = 0; x < WIDGETS.length; x++) {
+      if (WIDGETS[x].pageId === pageId) {
+        const curIdx = WIDGETS[x].index;
+        if (curIdx == startIdx) {
+          WIDGETS[x].index = endIdx;
+        }
+        else if (curIdx >= Math.min(startIdx, endIdx) && curIdx <= Math.max(startIdx, endIdx)) {
+          WIDGETS[x].index += modifier;
+        }
+      }
+    }
+
+    // sort the array with the new indicies
+    WIDGETS.sort(function(a, b) {
+      return a.index - b.index;
+    });
   }
 };

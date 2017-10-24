@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WidgetService} from '../../../services/widget.service.client';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -56,5 +56,16 @@ export class WidgetListComponent implements OnInit {
     url = 'https://www.youtube.com/embed/' + vidId;
 
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  updateIndex(newIndexes: any) {
+    this.widgetService.updateWidgetIndex(this.pageId, newIndexes.startIndex, newIndexes.endIndex)
+      .subscribe(
+        (data: any) => { },
+        (error: any) => {
+          this.errorMsg = 'Failed to update widget position';
+          this.errorFlag = true;
+        }
+      );
   }
 }

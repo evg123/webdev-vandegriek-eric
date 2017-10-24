@@ -53,7 +53,7 @@ module.exports = function (app) {
   }
 
   function findUserById(req, res) {
-    const userId = req.query.userId;
+    const userId = req.params.userId;
 
     for (var x = 0; x < USERS.length; x++) {
       if (USERS[x]._id === userId) {
@@ -67,12 +67,13 @@ module.exports = function (app) {
   }
 
   function updateUser(req, res) {
-    const userId = req.query.userId;
+    const userId = req.params.userId;
     var user = req.body;
 
     for (var x = 0; x < USERS.length; x++) {
       if (USERS[x]._id === userId) {
-        user._id = userId;
+        user.username = USERS[x].username;
+        user.password = USERS[x].password;
         USERS[x] = user;
         res.json(USERS[x]);
         return;
@@ -84,7 +85,7 @@ module.exports = function (app) {
   }
 
   function deleteUser(req, res) {
-    const userId = req.query.userId;
+    const userId = req.params.userId;
 
     for (var x = 0; x < USERS.length; x++) {
       if (USERS[x]._id === userId) {

@@ -10,9 +10,6 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-require("./assignment/app.js")(app);
-app.listen(port, ipaddress);
-
 // CORS
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -21,3 +18,5 @@ app.use(function(req, res, next) {
   next();
 });
 
+require("./assignment/app.js")(app);
+app.listen(port, ipaddress);

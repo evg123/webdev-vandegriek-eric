@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Response } from '@angular/http';
+import {Http, RequestOptions, Response, URLSearchParams} from '@angular/http';
 import 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
@@ -63,6 +63,23 @@ export class WidgetService {
 
   deleteWidget(widgetId: string) {
     return this._http.delete(this.baseUrl + '/api/widget/' + widgetId)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        }
+      );
+  }
+
+  updateWidgetIndex(pageId: string, startIdx: string, endIdx: string) {
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('initial', startIdx);
+    params.set('final', endIdx);
+
+    const requestOpts: RequestOptions = new RequestOptions();
+    requestOpts.params = params;
+
+    return this._http.put(this.baseUrl + '/api/page/' + pageId + '/widget', {}, requestOpts)
       .map(
         (res: Response) => {
           const data = res.json();
