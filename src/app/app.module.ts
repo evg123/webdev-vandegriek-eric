@@ -25,6 +25,8 @@ import { WebsiteService } from './services/website.service.client';
 import { PageService } from './services/page.service.client';
 import { WidgetService } from './services/widget.service.client';
 import { SortableDirective} from '../../assignment/directives/sortable.directive';
+import {TestComponent} from './components/test/test.component';
+import {TestService} from './services/test.service.client';
 
 @NgModule({
   // Declare components here
@@ -46,6 +48,7 @@ import { SortableDirective} from '../../assignment/directives/sortable.directive
     WidgetImageComponent,
     WidgetYoutubeComponent,
     SortableDirective,
+    TestComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,7 @@ import { SortableDirective} from '../../assignment/directives/sortable.directive
     Routing
   ],
   // Client Side services here
-  providers: [UserService, WebsiteService, PageService, WidgetService],
+  providers: [UserService, WebsiteService, PageService, WidgetService, TestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
