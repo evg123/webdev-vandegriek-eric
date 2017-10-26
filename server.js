@@ -1,13 +1,15 @@
 
-const port = process.env.PORT || '3100';
-
-var express = require('express');
-var app = express();
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const app = express();
 
 // install, load, and configure body parser module
-var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// Point static path to dist -- For building -- REMOVE
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // CORS
 app.use(function(req, res, next) {
@@ -17,6 +19,14 @@ app.use(function(req, res, next) {
   next();
 });
 
+const port = process.env.PORT || '3100';
+app.set('port', port);
+
 require("./assignment/app.js")(app);
+
+// For Build: Catch all other routes and return the index file -- BUILDING
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
 
 app.listen(port, function() { console.log('Running') });
