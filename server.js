@@ -1,6 +1,5 @@
 
-const port = 3100;
-const ipaddress = 'localhost';
+const port = process.env.PORT || '3100';
 
 var express = require('express');
 var app = express();
@@ -19,4 +18,5 @@ app.use(function(req, res, next) {
 });
 
 require("./assignment/app.js")(app);
-app.listen(port, ipaddress);
+
+app.listen(port, function() { console.log('Running') });
