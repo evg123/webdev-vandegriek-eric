@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {WidgetService} from '../../../../services/widget.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-widget-image',
@@ -13,6 +14,7 @@ export class WidgetImageComponent implements OnInit {
   @ViewChild('f') loginForm: NgForm;
 
   // properties
+  baseUrl = environment.baseUrl;
   errorFlag: boolean;
   errorMsg: string;
   userId: string;
@@ -24,7 +26,6 @@ export class WidgetImageComponent implements OnInit {
   width: string;
   name: string;
   text: string;
-  upload: any;
 
   constructor(private widgetService: WidgetService,
               private router: Router,
@@ -50,7 +51,6 @@ export class WidgetImageComponent implements OnInit {
           this.text = this.widget.text;
           this.width = this.widget.width;
           this.url = this.widget.url;
-          this.upload = this.widget.upload;
         },
         (error: any) => {
           this.errorMsg = 'Failed to find widget';
@@ -65,7 +65,6 @@ export class WidgetImageComponent implements OnInit {
     this.widget.width = this.loginForm.value.width;
     this.widget.name = this.loginForm.value.name;
     this.widget.text = this.loginForm.value.text;
-    this.widget.upload = this.loginForm.value.upload;
     this.widgetService.updateWidget(this.widgetId, this.widget)
       .subscribe(
         (data: any) => {
@@ -90,4 +89,5 @@ export class WidgetImageComponent implements OnInit {
         }
       );
   }
+
 }

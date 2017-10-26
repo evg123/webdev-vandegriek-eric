@@ -14,6 +14,7 @@ export class WidgetEditComponent implements OnInit {
   errorMsg: string;
   widgetId: string;
   widget: any;
+  widgetType: string;
 
   constructor(private widgetService: WidgetService,
               private router: Router,
@@ -32,6 +33,7 @@ export class WidgetEditComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.widget = data;
+          this.widgetType = this.widget.widgetType;
         },
         (error: any) => {
           this.errorMsg = 'Failed to find widget';

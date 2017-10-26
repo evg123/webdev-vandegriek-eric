@@ -72,6 +72,7 @@ module.exports = function (app) {
 
     for (var x = 0; x < USERS.length; x++) {
       if (USERS[x]._id === userId) {
+        user._id = userId;
         user.username = USERS[x].username;
         user.password = USERS[x].password;
         USERS[x] = user;

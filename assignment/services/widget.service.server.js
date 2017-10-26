@@ -2,6 +2,8 @@
 module.exports = function (app) {
 
   var WIDGETS = require('./mocks/widget.mock');
+  var multer = require('multer');
+  var upload = multer({ dest: __dirname + '/../../src/assets/uploads' });
 
   app.post('/api/page/:pageId/widget', createWidget);
   app.get('/api/page/:pageId/widget', findAllWidgetsForPage);
@@ -9,12 +11,14 @@ module.exports = function (app) {
   app.get('/api/widget/:widgetId', findWidgetById);
   app.put('/api/widget/:widgetId', updateWidget);
   app.delete('/api/widget/:widgetId', deleteWidget);
+  app.post('/api/upload', upload.single('myFile'), uploadImage);
 
   function createWidget(req, res) {
     const pageId = req.params.pageId;
     var widget = req.body;
     widget._id = Math.floor(Math.random() * 1024).toString();
     widget.pageId = pageId;
+    widget.index = WIDGETS.length;
     WIDGETS.push(widget);
     res.json(widget);
   }
@@ -31,16 +35,18 @@ module.exports = function (app) {
 
   function findWidgetById(req, res) {
     const widgetId = req.params.widgetId;
+    res.json(getWidgetById(widgetId));
+  }
 
+  function getWidgetById(widgetId) {
     for (var x = 0; x < WIDGETS.length; x++) {
       if (WIDGETS[x]._id === widgetId) {
-        res.json(WIDGETS[x]);
-        return;
+        return WIDGETS[x];
       }
     }
 
     // not found
-    res.json(null);
+    return null;
   }
 
   function updateWidget(req, res) {
@@ -49,7 +55,10 @@ module.exports = function (app) {
 
     for (var x = 0; x < WIDGETS.length; x++) {
       if (WIDGETS[x]._id === widgetId) {
+        widget._id = widgetId;
         widget.pageId = WIDGETS[x].pageId;
+        widget.widgetType = WIDGETS[x].widgetType;
+        widget.index = WIDGETS[x].index;
         WIDGETS[x] = widget;
         res.json(WIDGETS[x]);
         return;
@@ -101,4 +110,32 @@ module.exports = function (app) {
       return a.index - b.index;
     });
   }
+
+  function uploadImage(req, res) {
+    const widgetId = req.body.widgetId;
+    const width = req.body.width;
+    const userId = req.body.userId;
+    const websiteId = req.body.websiteId;
+    const pageId = req.body.pageId;
+    const myFile = req.file;
+
+    const originalname = myFile.originalname; // file name on user's computer
+    const filename = myFile.filename; // new file name in upload folder
+    const path = myFile.path; // full path of uploaded file
+    const destination = myFile.destination; // folder where file is saved to
+    const size = myFile.size;
+    const mimetype = myFile.mimetype;
+
+    const widget = getWidgetById(widgetId);
+    widget.url = '/src/assets/uploads/' + filename;
+
+    var callbackUrl = "http://" + host + ":" + port +
+                      "/user/" + userId +
+                      "/website/" + websiteId +
+                      "/page/" + pageId +
+                      "/widget/" + widgetId;
+
+    res.redirect(callbackUrl);
+  }
+
 };
