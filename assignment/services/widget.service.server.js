@@ -18,24 +18,9 @@ module.exports = function (app) {
     var widget = req.body;
     widget._id = Math.floor(Math.random() * 1024).toString();
     widget.pageId = pageId;
-    widget.index = WIDGETS.length;
+    widget.index = getAllWidgetsForPage(pageId).length;
     WIDGETS.push(widget);
     res.json(widget);
-  }
-
-  function findAllWidgetsForPage(req, res) {
-    const pageId = req.params.pageId;
-
-    const userWidgets = WIDGETS.filter(function (widget) {
-      return widget.pageId === pageId;
-    });
-
-    res.json(userWidgets);
-  }
-
-  function findWidgetById(req, res) {
-    const widgetId = req.params.widgetId;
-    res.json(getWidgetById(widgetId));
   }
 
   function getWidgetById(widgetId) {
@@ -47,6 +32,31 @@ module.exports = function (app) {
 
     // not found
     return null;
+  }
+
+  function getAllWidgetsForPage(pageId) {
+    const pageWidgets = WIDGETS.filter(function (widget) {
+      return widget.pageId === pageId;
+    });
+
+    // sort the array based on each widget's index
+    pageWidgets.sort(function(a, b) {
+      return a.index - b.index;
+    });
+
+    return pageWidgets;
+  }
+
+  function findAllWidgetsForPage(req, res) {
+    const pageId = req.params.pageId;
+    pageWidgets = getAllWidgetsForPage(pageId);
+
+    res.json(pageWidgets);
+  }
+
+  function findWidgetById(req, res) {
+    const widgetId = req.params.widgetId;
+    res.json(getWidgetById(widgetId));
   }
 
   function updateWidget(req, res) {
@@ -85,6 +95,7 @@ module.exports = function (app) {
   }
 
   function updateWidgetIndex(req, res) {
+    //TODO instead of having an index, just sort the master widget list
     const pageId = req.params.pageId;
     const startIdx = parseInt(req.query.initial);
     const endIdx = parseInt(req.query.final);
@@ -93,22 +104,20 @@ module.exports = function (app) {
     // to indexes that fall between the start and end
     modifier = Math.sign(startIdx - endIdx);
 
-    for (var x = 0; x < WIDGETS.length; x++) {
-      if (WIDGETS[x].pageId === pageId) {
-        const curIdx = WIDGETS[x].index;
+    pageWidgets = getAllWidgetsForPage(pageId);
+
+    for (var x = 0; x < pageWidgets.length; x++) {
+      if (pageWidgets[x].pageId === pageId) {
+        const curIdx = pageWidgets[x].index;
         if (curIdx == startIdx) {
-          WIDGETS[x].index = endIdx;
+          pageWidgets[x].index = endIdx;
         }
         else if (curIdx >= Math.min(startIdx, endIdx) && curIdx <= Math.max(startIdx, endIdx)) {
-          WIDGETS[x].index += modifier;
+          pageWidgets[x].index += modifier;
         }
       }
     }
 
-    // sort the array with the new indicies
-    WIDGETS.sort(function(a, b) {
-      return a.index - b.index;
-    });
   }
 
   function uploadImage(req, res) {
