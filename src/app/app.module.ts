@@ -30,6 +30,8 @@ import { WidgetService } from './services/widget.service.client';
 import { SortableDirective} from '../../assignment/directives/sortable.directive';
 import {TestComponent} from './components/test/test.component';
 import {TestService} from './services/test.service.client';
+import { FlickrImageSearchComponent } from './components/widget/widget-edit/widget-image/flickr-image-search/flickr-image-search.component';
+import {FlickrService} from './services/flickr.service.client';
 
 @NgModule({
   // Declare components here
@@ -54,6 +56,7 @@ import {TestService} from './services/test.service.client';
     TestComponent,
     WidgetHtmlComponent,
     WidgetTextComponent,
+    FlickrImageSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,7 @@ import {TestService} from './services/test.service.client';
     QuillEditorModule
   ],
   // Client Side services here
-  providers: [UserService, WebsiteService, PageService, WidgetService, TestService],
+  providers: [UserService, WebsiteService, PageService, WidgetService, TestService, FlickrService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

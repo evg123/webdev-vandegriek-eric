@@ -26,6 +26,7 @@ export class WidgetImageComponent implements OnInit {
   width: string;
   name: string;
   text: string;
+  myFile: any;
 
   constructor(private widgetService: WidgetService,
               private router: Router,

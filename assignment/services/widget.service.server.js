@@ -5,6 +5,8 @@ module.exports = function (app) {
   var multer = require('multer');
   var upload = multer({ dest: __dirname + '/../../src/assets/uploads' });
 
+  const hostport = process.env.HOSTPORT || 'localhost:4200';
+
   app.post('/api/page/:pageId/widget', createWidget);
   app.get('/api/page/:pageId/widget', findAllWidgetsForPage);
   app.put('/api/page/:pageId/widget', updateWidgetIndex);
@@ -12,6 +14,7 @@ module.exports = function (app) {
   app.put('/api/widget/:widgetId', updateWidget);
   app.delete('/api/widget/:widgetId', deleteWidget);
   app.post('/api/upload', upload.single('myFile'), uploadImage);
+  app.get('/api/flickr', getFlickrInfo);
 
   function createWidget(req, res) {
     const pageId = req.params.pageId;
@@ -104,16 +107,26 @@ module.exports = function (app) {
       .then(function (data) {
         const widget = data;
 
-        widget.url = '/src/assets/uploads/' + filename;
+        widget.url = '/assets/uploads/' + filename;
+        WidgetModel.updateWidget(widgetId, widget)
+          .then(function (data) {
+            var callbackUrl = "http://" + hostport +
+              "/user/" + userId +
+              "/website/" + websiteId +
+              "/page/" + pageId +
+              "/widget/" + widgetId;
 
-        var callbackUrl = "http://" + host + ":" + port +
-                          "/user/" + userId +
-                          "/website/" + websiteId +
-                          "/page/" + pageId +
-                          "/widget/" + widgetId;
-
-        res.redirect(callbackUrl);
+            res.redirect(callbackUrl);
+        });
       });
+  }
+
+  function getFlickrInfo(req, res) {
+    data = {
+      key: process.env.FLICKR_KEY,
+      secret: process.env.FLICKR_SECRET
+    };
+    res.json(data);
   }
 
 };

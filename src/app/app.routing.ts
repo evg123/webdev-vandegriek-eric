@@ -14,6 +14,7 @@ import {WidgetChooserComponent} from './components/widget/widget-chooser/widget-
 import {WidgetListComponent} from './components/widget/widget-list/widget-list.component';
 import {WidgetEditComponent} from './components/widget/widget-edit/widget-edit.component';
 import {TestComponent} from './components/test/test.component';
+import {FlickrImageSearchComponent} from './components/widget/widget-edit/widget-image/flickr-image-search/flickr-image-search.component';
 
 
 const APP_ROUTES: Routes = [
@@ -30,6 +31,7 @@ const APP_ROUTES: Routes = [
   {path: 'user/:uid/website/:wid/page/:pid/widget', component : WidgetListComponent},
   {path: 'user/:uid/website/:wid/page/:pid/widget/new', component : WidgetChooserComponent},
   {path: 'user/:uid/website/:wid/page/:pid/widget/:wgid', component : WidgetEditComponent},
+  {path: 'user/:uid/website/:wid/page/:pid/widget/:wgid/flickrSearch', component : FlickrImageSearchComponent},
   {path: 'test', component: TestComponent},
 ];
 

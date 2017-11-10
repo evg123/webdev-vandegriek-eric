@@ -82,12 +82,14 @@
 
   </form>
 
-  <form> <!-- ngNoForm #uploadForm action="{{baseUrl}}/api/upload" method="post" enctype="multipart/form-data"> -->
+  <form ngNoForm #uploadForm action="{{baseUrl}}/api/upload" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="upload">Upload</label>
       <input name="myFile"
+             [(ngModel)]="myFile"
              id="upload"
              type="file"
+             #myFileLocal="ngModel"
              class="form-control"/>
     </div>
     <input  name="widgetId" value="{{widgetId}}" style="display: none"/>
@@ -96,11 +98,15 @@
     <input  name="userId" value="{{userId}}" style="display: none"/>
 
     <button class="btn btn-primary btn-block"
-            [disabled]="!f.valid">Upload Image</button>
-
-    <button class="btn btn-danger btn-block"
-            (click)="delete()">Delete</button>
+            [disabled]="!myFileLocal.valid || !myFileLocal.touched">Upload Image</button>
   </form>
+
+  <button class="btn btn-primary btn-block wide-button"
+          routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widgetId}}/flickrSearch">Flickr Search</button>
+
+  <button class="btn btn-danger btn-block wide-button"
+          (click)="delete()">Delete</button>
+
 
 </div>
 
