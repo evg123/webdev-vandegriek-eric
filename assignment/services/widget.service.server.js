@@ -1,7 +1,7 @@
 
 module.exports = function (app) {
 
-  var WIDGETS = require('./mocks/widget.mock');
+  var WidgetModel = require("../model/widget/widget.model.server");
   var multer = require('multer');
   var upload = multer({ dest: __dirname + '/../../src/assets/uploads' });
 
@@ -16,86 +16,51 @@ module.exports = function (app) {
   function createWidget(req, res) {
     const pageId = req.params.pageId;
     var widget = req.body;
-    widget._id = Math.floor(Math.random() * 1024).toString();
     widget.pageId = pageId;
-    widget.index = getAllWidgetsForPage(pageId).length;
-    WIDGETS.push(widget);
-    res.json(widget);
-  }
-
-  function getWidgetById(widgetId) {
-    for (var x = 0; x < WIDGETS.length; x++) {
-      if (WIDGETS[x]._id === widgetId) {
-        return WIDGETS[x];
-      }
-    }
-
-    // not found
-    return null;
-  }
-
-  function getAllWidgetsForPage(pageId) {
-    const pageWidgets = WIDGETS.filter(function (widget) {
-      return widget.pageId === pageId;
-    });
-
-    // sort the array based on each widget's index
-    pageWidgets.sort(function(a, b) {
-      return a.index - b.index;
-    });
-
-    return pageWidgets;
+    WidgetModel.createWidget(pageId, widget)
+      .then(function (data) {
+        res.json(data);
+      });
   }
 
   function findAllWidgetsForPage(req, res) {
     const pageId = req.params.pageId;
-    pageWidgets = getAllWidgetsForPage(pageId);
-
-    res.json(pageWidgets);
+    WidgetModel.findAllWidgetsForPage(pageId)
+      .then(function (data) {
+        res.json(data);
+      });
   }
 
   function findWidgetById(req, res) {
     const widgetId = req.params.widgetId;
-    res.json(getWidgetById(widgetId));
+    WidgetModel.findWidgetById(widgetId)
+      .then(function (data) {
+        res.json(data);
+      });
   }
 
   function updateWidget(req, res) {
     const widgetId = req.params.widgetId;
     var widget = req.body;
 
-    for (var x = 0; x < WIDGETS.length; x++) {
-      if (WIDGETS[x]._id === widgetId) {
-        widget._id = widgetId;
-        widget.pageId = WIDGETS[x].pageId;
-        widget.widgetType = WIDGETS[x].widgetType;
-        widget.index = WIDGETS[x].index;
-        WIDGETS[x] = widget;
-        res.json(WIDGETS[x]);
-        return;
-      }
-    }
-
-    // not found
-    res.json(null);
+    WidgetModel.updateWidget(widgetId, widget)
+      .then(function (data) {
+        res.json(data);
+      });
   }
 
   function deleteWidget(req, res) {
     const widgetId = req.params.widgetId;
 
-    for (var x = 0; x < WIDGETS.length; x++) {
-      if (WIDGETS[x]._id === widgetId) {
-        res.json(WIDGETS[x]);
-        WIDGETS.splice(x, 1);
-        return;
-      }
-    }
-
-    // not found
-    res.json(null);
+    WidgetModel.deleteWidget(widgetId)
+      .then(function (data) {
+        res.json(data);
+      });
   }
 
   function updateWidgetIndex(req, res) {
-    //TODO instead of having an index, just sort the master widget list
+    //TODO
+    /*
     const pageId = req.params.pageId;
     const startIdx = parseInt(req.query.initial);
     const endIdx = parseInt(req.query.final);
@@ -117,7 +82,7 @@ module.exports = function (app) {
         }
       }
     }
-
+  */
   }
 
   function uploadImage(req, res) {
@@ -135,16 +100,20 @@ module.exports = function (app) {
     const size = myFile.size;
     const mimetype = myFile.mimetype;
 
-    const widget = getWidgetById(widgetId);
-    widget.url = '/src/assets/uploads/' + filename;
+    WidgetModel.findWidgetById(widgetId)
+      .then(function (data) {
+        const widget = data;
 
-    var callbackUrl = "http://" + host + ":" + port +
-                      "/user/" + userId +
-                      "/website/" + websiteId +
-                      "/page/" + pageId +
-                      "/widget/" + widgetId;
+        widget.url = '/src/assets/uploads/' + filename;
 
-    res.redirect(callbackUrl);
+        var callbackUrl = "http://" + host + ":" + port +
+                          "/user/" + userId +
+                          "/website/" + websiteId +
+                          "/page/" + pageId +
+                          "/widget/" + widgetId;
+
+        res.redirect(callbackUrl);
+      });
   }
 
 };

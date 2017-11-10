@@ -1,0 +1,114 @@
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+
+    <p class="navbar-text pull-left">
+      <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget" class="navbar-link">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+    </p>
+
+    <!--heading on the nav bar-->
+    <p class="navbar-header pull-left">
+      <a class="navbar-brand thick">
+        <b>Widget Edit</b>
+      </a>
+    </p>
+
+    <p class="navbar-text pull-right">
+      <button (click)="update()"
+              [disabled]="!f.valid"
+              class="navbar-link icon-button">
+        <span class="glyphicon glyphicon-ok"></span>
+      </button>
+    </p>
+
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <form #f="ngForm">
+    <div class="form-group">
+      <label for="text">Text</label>
+      <input name="text"
+             [(ngModel)]="text"
+             id="text"
+             placeholder="Text"
+             type="text"
+             required
+             #textLocal="ngModel"
+             class="form-control"/>
+    </div>
+    <span class="help-block alert-danger" *ngIf="!textLocal.valid && textLocal.touched">
+      Please enter a name
+    </span>
+
+    <div class="form-group">
+      <label for="rows">Rows</label>
+      <input name="rows"
+             [(ngModel)]="rows"
+             id="rows"
+             placeholder="1"
+             type="number"
+             required
+             #rowsLocal="ngModel"
+             class="form-control"/>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input name="name"
+             [(ngModel)]="name"
+             id="name"
+             placeholder="Name"
+             type="text"
+             required
+             #nameLocal="ngModel"
+             class="form-control"/>
+    </div>
+    <span class="help-block alert-danger" *ngIf="!nameLocal.valid && nameLocal.touched">
+      Please enter a name
+    </span>
+
+    <div class="form-group">
+      <label for="placeholder">Placeholder</label>
+      <input name="placeholder"
+             [(ngModel)]="placeholder"
+             id="placeholder"
+             placeholder="Placeholder"
+             type="text"
+             required
+             #placeholderLocal="ngModel"
+             class="form-control"/>
+    </div>
+    <span class="help-block alert-danger" *ngIf="!placeholderLocal.valid && placeholderLocal.touched">
+      Please enter a placeholder
+    </span>
+
+
+    <div class="input-group form-group">
+      <input name="formatted"
+             type="text"
+             readonly
+             value="Formatted"
+             class="form-control"/>
+      <span class="input-group-addon">
+        <input [(ngModel)]="formatted" name="formattedCheck" type="checkbox"/>
+      </span>
+    </div>
+
+    <a class="btn btn-danger btn-block" (click)="delete()">Delete</a>
+  </form>
+</div>
+
+<!-- Footer -->
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container-fluid">
+    <p class="navbar-text pull-right">
+      <a routerLink="/user/{{userId}}">
+        <span class="glyphicon glyphicon-user"></span>
+      </a>
+    </p>
+
+  </div>
+</nav>

@@ -1,7 +1,7 @@
 
 module.exports = function (app) {
 
-  var WEBSITES = require('./mocks/website.mock');
+  var WebsiteModel = require("../model/website/website.model.server");
 
   app.post('/api/user/:userId/website', createWebsite);
   app.get('/api/user/:userId/website', findAllWebsitesForUser);
@@ -12,66 +12,47 @@ module.exports = function (app) {
   function createWebsite(req, res) {
     const userId = req.params.userId;
     var website = req.body;
-    website._id = Math.floor(Math.random() * 1024).toString();
     website.developerId = userId;
-    WEBSITES.push(website);
-    res.json(website);
+    WebsiteModel.createWebsiteForUser(userId, website)
+      .then(function (data) {
+        res.json(data);
+      });
   }
 
   function findAllWebsitesForUser(req, res) {
     const userId = req.params.userId;
 
-    const userWebsites = WEBSITES.filter(function (site) {
-      return site.developerId === userId;
-    });
-
-    res.json(userWebsites);
+    WebsiteModel.findAllWebsitesForUser(userId)
+      .then(function (data) {
+        res.json(data);
+      });
   }
 
   function findWebsiteById(req, res) {
     const siteId = req.params.websiteId;
 
-    for (var x = 0; x < WEBSITES.length; x++) {
-      if (WEBSITES[x]._id === siteId) {
-        res.json(WEBSITES[x]);
-        return;
-      }
-    }
-
-    // not found
-    res.json(null);
+    WebsiteModel.findWebsiteById(siteId)
+      .then(function (data) {
+        res.json(data);
+      });
   }
 
   function updateWebsite(req, res) {
     const siteId = req.params.websiteId;
     var website = req.body;
 
-    for (var x = 0; x < WEBSITES.length; x++) {
-      if (WEBSITES[x]._id === siteId) {
-        website._id = siteId;
-        website.developerId = WEBSITES[x].developerId;
-        WEBSITES[x] = website;
-        res.json(WEBSITES[x]);
-        return;
-      }
-    }
-
-    // not found
-    res.json(null);
+    WebsiteModel.updateWebsite(siteId, website)
+      .then(function (data) {
+        res.json(data);
+      });
   }
 
   function deleteWebsite(req, res) {
     const siteId = req.params.websiteId;
 
-    for (var x = 0; x < WEBSITES.length; x++) {
-      if (WEBSITES[x]._id === siteId) {
-        res.json(WEBSITES[x]);
-        WEBSITES.splice(x, 1);
-        return;
-      }
-    }
-
-    // not found
-    res.json(null);
+    WebsiteModel.deleteWebsite(siteId)
+      .then(function (data) {
+        res.json(data);
+      });
   }
 };

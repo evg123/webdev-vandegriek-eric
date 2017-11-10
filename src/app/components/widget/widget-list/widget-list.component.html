@@ -75,7 +75,7 @@
                 </a>
               </div>
               <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" [style.width]="widget.width" [src]='formatUrl(widget.url)' allowfullscreen></iframe>
+                <iframe class="embed-responsive-item" [src]='formatUrl(widget.url)' allowfullscreen></iframe>
               </div>
             </div>
           </div>
@@ -93,6 +93,47 @@
               <img class="evg-content" [style.width]="widget.width" src={{widget.url}}/>
             </div>
           </div>
+
+          <div *ngSwitchCase="'HTML'">
+            <div class="evg-widget">
+              <div class="evg-widget-toolbar">
+                <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+                  <span class="glyphicon glyphicon-cog"></span>
+                </a>
+                <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+                  <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
+                </a>
+              </div>
+              <div [innerHtml]="widget.text">
+              </div>
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'INPUT'">
+            <div class="evg-widget">
+              <div class="evg-widget-toolbar">
+                <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+                  <span class="glyphicon glyphicon-cog"></span>
+                </a>
+                <a routerLink="/user/{{userId}}/website/{{siteId}}/page/{{pageId}}/widget/{{widget._id}}">
+                  <span class="evg-widget-menu glyphicon glyphicon-menu-hamburger"></span>
+                </a>
+              </div>
+
+                <div *ngIf="widget.formatted">
+                  <quill-editor [(ngModel)]="widget.text" name="text"></quill-editor>
+                </div>
+
+                <input *ngIf="!widget.formatted && (!widget.rows || widget.rows===1)"
+                       placeholder="{{widget.placeholder}}" class="form-control"/>
+
+                <textarea *ngIf="!widget.formatted && (widget.rows > 1)"
+                          rows="{{widget.rows}}" placeholder="{{widget.placeholder}}"
+                          class="form-control">{{widget.text}}</textarea>
+              </div>
+
+          </div>
+
         </div>
       </li>
     </div>
