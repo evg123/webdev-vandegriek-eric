@@ -32,6 +32,8 @@ import {TestComponent} from './components/test/test.component';
 import {TestService} from './services/test.service.client';
 import { FlickrImageSearchComponent } from './components/widget/widget-edit/widget-image/flickr-image-search/flickr-image-search.component';
 import {FlickrService} from './services/flickr.service.client';
+import {SharedService} from './services/shared.service';
+import {AuthGuard} from './services/auth-guard.service';
 
 @NgModule({
   // Declare components here
@@ -66,7 +68,7 @@ import {FlickrService} from './services/flickr.service.client';
     QuillEditorModule
   ],
   // Client Side services here
-  providers: [UserService, WebsiteService, PageService, WidgetService, TestService, FlickrService],
+  providers: [UserService, WebsiteService, PageService, WidgetService, TestService, FlickrService, SharedService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

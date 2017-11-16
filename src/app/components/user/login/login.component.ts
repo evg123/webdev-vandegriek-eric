@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {UserService} from '../../../services/user.service.client';
 import {Router} from '@angular/router';
+import {SharedService} from '../../../services/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -19,13 +20,17 @@ export class LoginComponent implements OnInit {
   user: any;
 
   constructor(private userService: UserService,
+              private sharedService: SharedService,
               private router: Router) { }
 
   ngOnInit() { }
 
   login() {
     // fetching data from loginForm
-    this.userService.findUserByCredentials(this.loginForm.value.username, this.loginForm.value.password)
+    const username = this.loginForm.value.username;
+    const password = this.loginForm.value.password;
+
+    this.userService.login(username, password)
       .subscribe(
         (data: any) => {
           if (!data) {
@@ -33,8 +38,9 @@ export class LoginComponent implements OnInit {
             this.errorFlag = true;
             return;
           }
-          this.user = data;
-          this.router.navigate(['/user/', this.user._id]);
+          this.sharedService.user = data;
+          this.user = this.sharedService.user;
+          this.router.navigate(['/profile']);
         },
         (error: any) => {
           this.errorMsg = 'Login failed';

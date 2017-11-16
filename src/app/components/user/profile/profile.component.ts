@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../../services/user.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
+import {SharedService} from '../../../services/shared.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,32 +24,26 @@ export class ProfileComponent implements OnInit {
   lastName: string;
   updated: boolean;
 
-  constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private userService: UserService,
+              private sharedService: SharedService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-
-    this.activatedRoute.params
-      .subscribe(
-        (params: any) => {
-          this.userId = params['uid'];
-        }
-      );
-
-    this.userService.findUserById(this.userId)
-      .subscribe(
-        (data: any) => {
-          this.user = data;
-          this.username = this.user.username;
-          this.email = this.user.email ? this.user.email : '';
-          this.firstName = this.user.firstName;
-          this.lastName = this.user.lastName;
-        },
-        (error: any) => {
-          this.errorMsg = 'Failed to find user';
-          this.errorFlag = true;
-        }
-      );
+    this.user = this.sharedService.user;
+    this.userId = this.user._id;
+    this.username = this.user.username;
+    this.email = this.user.email ? this.user.email : '';
+    this.firstName = this.user.firstName;
+    this.lastName = this.user.lastName;
     this.updated = false;
+  }
+
+  logout() {
+    this.userService.logout()
+      .subscribe(
+        (data: any) => this.router.navigate(['/login'])
+      );
   }
 
   update() {
@@ -60,7 +55,7 @@ export class ProfileComponent implements OnInit {
     this.userService.updateUser(this.userId, updatedUser)
       .subscribe(
         (data: any) => {
-          this.router.navigate(['/user/', this.userId]);
+          this.router.navigate(['/profile']);
           this.updated = true;
         },
         (error: any) => {

@@ -81,7 +81,7 @@
             routerLink="/user/{{userId}}/website">Websites</button>
 
     <a class="btn btn-danger btn-block "
-       [routerLink]="['/login']" >Logout</a>
+       (click)="logout()">Logout</a>
   </form>
 
   <div *ngIf="updated"
@@ -94,7 +94,7 @@
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid">
     <p class="navbar-text pull-right">
-      <a routerLink="/user/{{userId}}">
+      <a routerLink="/profile">
         <span class="glyphicon glyphicon-user"></span>
       </a>
     </p>

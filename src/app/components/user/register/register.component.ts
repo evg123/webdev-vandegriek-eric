@@ -48,12 +48,13 @@ export class RegisterComponent implements OnInit {
     }
 
     this.user = {};
-    this.user.username = this.loginForm.value.username;
-    this.user.password = this.loginForm.value.password;
-    this.userService.createUser(this.user)
+    const username = this.loginForm.value.username;
+    const password = this.loginForm.value.password;
+
+    this.userService.register(username, password)
       .subscribe(
         (data: any) => {
-          this.router.navigate(['/user/', data._id]);
+          this.router.navigate(['/profile']);
         },
         (error: any) => {
           this.errorMsg = 'Failed to create new user';
