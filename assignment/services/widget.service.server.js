@@ -62,30 +62,19 @@ module.exports = function (app) {
   }
 
   function updateWidgetIndex(req, res) {
-    //TODO
-    /*
     const pageId = req.params.pageId;
     const startIdx = parseInt(req.query.initial);
     const endIdx = parseInt(req.query.final);
 
-    // this will be either 1, -1, or 0 and will be applied
-    // to indexes that fall between the start and end
-    modifier = Math.sign(startIdx - endIdx);
-
-    pageWidgets = getAllWidgetsForPage(pageId);
-
-    for (var x = 0; x < pageWidgets.length; x++) {
-      if (pageWidgets[x].pageId === pageId) {
-        const curIdx = pageWidgets[x].index;
-        if (curIdx == startIdx) {
-          pageWidgets[x].index = endIdx;
-        }
-        else if (curIdx >= Math.min(startIdx, endIdx) && curIdx <= Math.max(startIdx, endIdx)) {
-          pageWidgets[x].index += modifier;
-        }
-      }
+    if (startIdx === endIdx) {
+      // nothing to do
+      return
     }
-  */
+
+    WidgetModel.reorderWidget(pageId, startIdx, endIdx)
+      .then(function (data) {
+        res.json(data);
+      })
   }
 
   function uploadImage(req, res) {

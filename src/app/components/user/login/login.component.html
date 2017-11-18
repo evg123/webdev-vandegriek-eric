@@ -15,7 +15,9 @@
              class="form-control"
              ngModel
              required
-             #username="ngModel"/>
+             #username="ngModel"
+             autocomplete="off"
+             autocapitalize="none"/>
     <span class="help-block alert-danger" *ngIf="!username.valid && username.touched">
       Please enter username
     </span>

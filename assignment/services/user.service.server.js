@@ -39,17 +39,19 @@ module.exports = function (app) {
 
   function localStrategy(username, password, done) {
     UserModel
-      .findUserByCredentials(username, password)
+      .findUserByUsername(username)
       .then(
         function(user) {
-          if(user.username === username && bcrypt.compareSync(password, user.password)) {
+          if(user && user.username === username && bcrypt.compareSync(password, user.password)) {
             return done(null, user);
           } else {
             return done(null, false);
           }
         },
         function(err) {
-          if (err) { return done(err); }
+          if (err) {
+            return done(err, false);
+          }
         }
       );
   }
