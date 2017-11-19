@@ -11,13 +11,19 @@ module.exports = function (app) {
   var facebookConfig = {
     clientID     : process.env.FACEBOOK_CLIENT_ID,
     clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
-    callbackURL  : process.env.FACEBOOK_CALLBACK_URL
+    callbackURL  : process.env.FACEBOOK_CALLBACK_URL,
+    profileFields: ['id', 'first_name', 'last_name', 'email']
   };
 
   passport.serializeUser(serializeUser);
   passport.deserializeUser(deserializeUser);
   passport.use(new LocalStrategy(localStrategy));
   passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
+
+  var redirectBase = '';
+  if (process.env.WEBSERVER_URL) {
+    redirectBase = 'http://localhost:4200';
+  }
 
   app.post('/api/user', createUser);
   app.get('/api/user', findUserCredRouter);
@@ -28,8 +34,8 @@ module.exports = function (app) {
   app.get ('/facebook/login', passport.authenticate('facebook', { scope : 'email' }));
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
-      successRedirect: '/profile',
-      failureRedirect: '/login'
+      successRedirect: redirectBase + '/profile',
+      failureRedirect: redirectBase + '/login'
     }));
   app.post('/api/logout', logout);
   app.post('/api/register', register);
@@ -82,10 +88,14 @@ module.exports = function (app) {
             const newUser = {};
             newUser.facebook = {
               id: profile.id,
-              token: refreshToken
+              token: token
             };
-            newUser.firstName = profile.first_name;
-            newUser.lastName = profile.last_name;
+            newUser.username = profile.id;
+            newUser.firstName = profile.name.givenName;
+            newUser.lastName = profile.name.familyName;
+            if (profile.emails.length > 0) {
+              newUser.email = profile.emails[0].value;
+            }
             return UserModel.createUser(newUser);
           }
         },
