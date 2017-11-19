@@ -8,6 +8,7 @@ UserModel.findUserByUsername = findUserByUsername;
 UserModel.findUserByCredentials = findUserByCredentials;
 UserModel.updateUser = updateUser;
 UserModel.deleteUser = deleteUser;
+UserModel.findUserByFacebookId = findUserByFacebookId;
 
 module.exports = UserModel;
 
@@ -17,6 +18,10 @@ function createUser(user) {
 
 function findUserById(userId) {
   return UserModel.findById(userId);
+}
+
+function findUserByFacebookId(facebookId, createOnMissing) {
+  return UserModel.findOne({'facebook.id': facebookId});
 }
 
 function findUserByUsername(username) {

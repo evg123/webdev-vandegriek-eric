@@ -4,11 +4,20 @@ module.exports = function (app) {
   var UserModel = require("../model/user/user.model.server");
   var passport = require('passport');
   var LocalStrategy = require('passport-local').Strategy;
+  var FacebookStrategy = require('passport-facebook').Strategy;
+
   var bcrypt = require("bcrypt-nodejs");
+
+  var facebookConfig = {
+    clientID     : process.env.FACEBOOK_CLIENT_ID,
+    clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
+    callbackURL  : process.env.FACEBOOK_CALLBACK_URL
+  };
 
   passport.serializeUser(serializeUser);
   passport.deserializeUser(deserializeUser);
   passport.use(new LocalStrategy(localStrategy));
+  passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
 
   app.post('/api/user', createUser);
   app.get('/api/user', findUserCredRouter);
@@ -16,6 +25,12 @@ module.exports = function (app) {
   app.put('/api/user/:userId', updateUser);
   app.delete('/api/user/:userId', deleteUser);
   app.post('/api/login', passport.authenticate('local'), login);
+  app.get ('/facebook/login', passport.authenticate('facebook', { scope : 'email' }));
+  app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+      successRedirect: '/profile',
+      failureRedirect: '/login'
+    }));
   app.post('/api/logout', logout);
   app.post('/api/register', register);
   app.post('/api/loggedIn', loggedIn);
@@ -54,6 +69,40 @@ module.exports = function (app) {
           }
         }
       );
+  }
+
+  function facebookStrategy(token, refreshToken, profile, done) {
+    UserModel
+      .findUserByFacebookId(profile.id)
+      .then(function(user) {
+          if(user) {
+            return user;
+          } else {
+            // user does not exist, create a new one
+            const newUser = {};
+            newUser.facebook = {
+              id: profile.id,
+              token: refreshToken
+            };
+            newUser.firstName = profile.first_name;
+            newUser.lastName = profile.last_name;
+            return UserModel.createUser(newUser);
+          }
+        },
+        function(err) {
+          if (err) {
+            return null;
+          }
+        })
+      .then(
+        function (user) {
+          return done(null, user);
+        },
+        function(err) {
+          if (err) {
+            return done(err, false);
+          }
+        });
   }
 
   function loggedIn(req, res) {
